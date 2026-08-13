@@ -32,9 +32,10 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  /* `clip`, not `hidden`: prevents horizontal scroll without turning <body>
-     into a scroll container, which would clip the position:fixed nav on scroll. */
-  overflow-x: clip;
+  /* No overflow-x here on purpose: any overflow (even `clip`) on <body> makes
+     it a scroll container and lets Chrome clip the position:fixed nav on
+     scroll. Horizontal overflow is contained by the .page-clip wrapper in
+     App.tsx instead, which is NOT an ancestor of the nav. */
 }
 
 /* Ambient background: fixed neon aurora that sits behind everything. */

@@ -11,18 +11,22 @@ export default function App() {
     <>
       <div className="aurora" />
       <Nav />
-      <main>
-        <Hero />
-        <Invisible />
-        <VanishDemo />
-        <Features />
-        <HowItWorks />
-        <Providers />
-        <Privacy />
-        <Faq />
-        <Download />
-      </main>
-      <Footer />
+      {/* Horizontal-overflow containment lives here, NOT on <body>. This wrapper
+          is a sibling of <Nav>, so it never clips the fixed header on scroll. */}
+      <div className="overflow-x-clip">
+        <main>
+          <Hero />
+          <Invisible />
+          <VanishDemo />
+          <Features />
+          <HowItWorks />
+          <Providers />
+          <Privacy />
+          <Faq />
+          <Download />
+        </main>
+        <Footer />
+      </div>
     </>
   )
 }
