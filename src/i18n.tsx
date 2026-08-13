@@ -17,7 +17,7 @@ export const dict = {
     invisible: {
       kicker: 'The whole point',
       title: 'It disappears the moment you share your screen',
-      body: 'Tayori calls Windows’ own capture-exclusion flag (WDA_EXCLUDEFROMCAPTURE). The system compositor skips the overlay when it builds the shared frame — so your suggestions are on your monitor, but not in the stream.',
+      body: 'When you share your screen, Windows quietly leaves the overlay out of the picture — literally. Your notes and answers stay on your monitor, but they never make it into what the room sees. You get the help; everyone else sees an ordinary screen-share.',
       hiddenTitle: 'Hidden from',
       hidden: ['Google Meet, Zoom, Teams, Discord', 'OBS “Display Capture” recorders', 'Windows Snipping Tool & app screenshots'],
       honestTitle: 'Honest about the limits',
@@ -74,6 +74,7 @@ export const dict = {
     },
     footer: {
       tagline: 'Real-time AI for meetings and interviews. Open source, MIT, no monetization.',
+      nameOrigin: 'Japanese for “it became something you can rely on.” Hence the little ghost.',
       madeBy: 'Built by',
       cols: {
         product: 'Product',
@@ -107,7 +108,7 @@ export const dict = {
     invisible: {
       kicker: 'La idea entera',
       title: 'Desaparece en el momento en que compartes pantalla',
-      body: 'Tayori usa el propio flag de exclusión de captura de Windows (WDA_EXCLUDEFROMCAPTURE). El compositor del sistema omite el overlay al construir el frame compartido — así que tus sugerencias están en tu monitor, pero no en la transmisión.',
+      body: 'Cuando compartes pantalla, Windows deja el overlay fuera de la foto — literalmente. Tus notas y respuestas siguen en tu monitor, pero nunca llegan a lo que ve la sala. Tú recibes la ayuda; los demás ven una pantalla compartida de lo más normal.',
       hiddenTitle: 'Oculto de',
       hidden: ['Google Meet, Zoom, Teams, Discord', 'Grabadores como OBS con “Display Capture”', 'Recortes de Windows y capturas de la app'],
       honestTitle: 'Honesto con sus límites',
@@ -164,6 +165,7 @@ export const dict = {
     },
     footer: {
       tagline: 'IA en tiempo real para reuniones y entrevistas. Open source, MIT, sin monetización.',
+      nameOrigin: 'japonés para “se volvió algo en lo que confiar.” De ahí el fantasmita.',
       madeBy: 'Creado por',
       cols: {
         product: 'Producto',

@@ -1,5 +1,5 @@
 import { useI18n } from '../i18n'
-import { Icon } from '../icons'
+import { Mascot } from './Mascot'
 
 export function Footer() {
   const { t } = useI18n()
@@ -13,10 +13,13 @@ export function Footer() {
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <a href="#top" className="flex items-center gap-2 font-bold tracking-tight">
-              <Icon.logo className="h-6 w-6" />
+              <Mascot className="h-8 w-8 shrink-0" />
               <span className="text-[17px]">Tayori</span>
             </a>
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--color-mute)]">{f.tagline}</p>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--color-mute-2)]">
+              <span className="font-medium text-[#dcdbe8]">頼りになった</span> — {f.nameOrigin}
+            </p>
             <p className="mt-4 text-sm text-[var(--color-mute-2)]">
               {f.madeBy}{' '}
               <a
