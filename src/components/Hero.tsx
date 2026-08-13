@@ -64,7 +64,7 @@ export function Hero() {
                   peeker without colliding with the card or the version badge.
                   The ghost still lives in the nav, footer and the vanish demo.
                   From sm+ it peeks from the card's top-left corner. */}
-              <Mascot className="floaty pointer-events-none absolute -top-10 -left-10 z-10 hidden h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:block" />
+              <Mascot className="floaty pointer-events-none absolute -top-8 -left-20 z-10 hidden h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:block" />
               <OverlayMock animated />
             </div>
           </div>
