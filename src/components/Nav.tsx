@@ -39,8 +39,9 @@ export function Nav() {
 
   const links = [
     { t: t.nav.features, href: '#features' },
-    { t: t.nav.privacy, href: '#privacy' },
     { t: t.nav.how, href: '#how' },
+    { t: t.nav.privacy, href: '#privacy' },
+    { t: t.nav.faq, href: '#faq' },
   ]
 
   return (

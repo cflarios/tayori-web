@@ -152,6 +152,18 @@ body {
   }
 }
 
+/* Streaming bullets fade-in */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* Slow float for the hero overlay mock */
 @keyframes floaty {
   0%,

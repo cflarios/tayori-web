@@ -5,7 +5,7 @@ export type Lang = 'en' | 'es'
 /** Full bilingual copy for the landing. One object per language, same shape. */
 export const dict = {
   en: {
-    nav: { features: 'Features', privacy: 'Privacy', how: 'How it works', download: 'Download' },
+    nav: { features: 'Features', privacy: 'Privacy', how: 'How it works', faq: 'FAQ', download: 'Download' },
     hero: {
       badge: 'Open source · MIT · Runs on your machine',
       title: ['Your AI wingman for the call.', 'Invisible when you share your screen.'],
@@ -23,6 +23,20 @@ export const dict = {
       honestTitle: 'Honest about the limits',
       honest: ['A camera pointed at your screen', 'Proctoring that enumerates processes', 'Anything you read out loud'],
       honestNote: 'We tell you exactly what it does and doesn’t protect — including the process name being cosmetic, not a rootkit.',
+    },
+    vanish: {
+      kicker: 'Proof, not a promise',
+      title: 'Push the button. Watch it vanish.',
+      sub: 'The whole idea in one click. Your overlay lives on your monitor — the moment you share your screen, it drops out of the stream. Try it:',
+      share: 'Share my screen',
+      stop: 'Stop sharing',
+      yours: 'Your monitor',
+      theirs: 'The shared stream',
+      live: 'LIVE · what everyone sees',
+      mirror: 'idle · not sharing yet',
+      caption: 'shared_solution.py',
+      overlayHint: 'Answer ready',
+      note: 'No blur, no cropping, no “drag the window off-screen.” Windows simply never draws it into the shared frame.',
     },
     features: {
       kicker: 'What it does',
@@ -61,6 +75,36 @@ export const dict = {
       ],
     },
     providers: { kicker: 'Bring your own model', title: 'Five providers. Or none at all.' },
+    faq: {
+      kicker: 'Questions',
+      title: 'The awkward ones, answered',
+      items: [
+        {
+          q: 'Is this even legal to use?',
+          a: 'Tayori is a tool; how you use it is on you. Many companies restrict AI assistants in hiring, and technical-assessment platforms often forbid them outright — some detect mass-paste even without seeing the window. Check what applies to your situation.',
+        },
+        {
+          q: 'Can it be detected on a screen share?',
+          a: 'The overlay won’t appear in Meet, Zoom, Teams, Discord or OBS — Windows excludes it from the captured frame. But it does not hide from a camera pointed at your screen, from proctoring software that enumerates processes, or from anything you read out loud.',
+        },
+        {
+          q: 'Does my audio or data leave my machine?',
+          a: 'The audio never touches your disk and no audio file is ever written. With Whisper local + Ollama, nothing leaves your machine at all. With a cloud provider, calls go straight to the provider you chose — there is no middle server. History is off by default.',
+        },
+        {
+          q: 'Is there a Mac or Linux version?',
+          a: 'Not yet. The invisibility relies on a Windows-specific capture-exclusion flag, so Tayori is Windows 10 (2004+) and Windows 11 only for now.',
+        },
+        {
+          q: 'How much does it cost?',
+          a: 'The app is free and open source (MIT), with no accounts and no monetization. You only pay your AI provider for usage — or nothing at all if you run fully local with Ollama + Whisper.',
+        },
+        {
+          q: 'Do I need an API key?',
+          a: 'For cloud models, yes — Anthropic, Google, OpenAI or DeepSeek. Or skip keys entirely and run local models with Ollama and Whisper. A guided setup measures your machine and recommends what to use.',
+        },
+      ],
+    },
     download: {
       kicker: 'Get Tayori',
       title: 'Download and run — no installer required',
@@ -96,7 +140,7 @@ export const dict = {
   },
 
   es: {
-    nav: { features: 'Funciones', privacy: 'Privacidad', how: 'Cómo funciona', download: 'Descargar' },
+    nav: { features: 'Funciones', privacy: 'Privacidad', how: 'Cómo funciona', faq: 'FAQ', download: 'Descargar' },
     hero: {
       badge: 'Open source · MIT · Corre en tu equipo',
       title: ['Tu copiloto de IA para la llamada.', 'Invisible cuando compartes pantalla.'],
@@ -114,6 +158,20 @@ export const dict = {
       honestTitle: 'Honesto con sus límites',
       honest: ['Una cámara apuntando a tu pantalla', 'Proctoring que enumera procesos', 'Lo que digas en voz alta'],
       honestNote: 'Te decimos exactamente qué protege y qué no — incluido que el nombre del proceso es cosmético, no un rootkit.',
+    },
+    vanish: {
+      kicker: 'La prueba, no una promesa',
+      title: 'Pulsa el botón. Míralo esfumarse.',
+      sub: 'Toda la idea en un clic. Tu overlay vive en tu monitor — en cuanto compartes pantalla, se cae de la transmisión. Pruébalo:',
+      share: 'Compartir mi pantalla',
+      stop: 'Dejar de compartir',
+      yours: 'Tu monitor',
+      theirs: 'La transmisión compartida',
+      live: 'EN VIVO · lo que ve todo el mundo',
+      mirror: 'inactivo · aún sin compartir',
+      caption: 'solucion_compartida.py',
+      overlayHint: 'Respuesta lista',
+      note: 'Sin desenfoque, sin recorte, sin “mueve la ventana fuera de pantalla”. Windows simplemente nunca la dibuja en el frame compartido.',
     },
     features: {
       kicker: 'Qué hace',
@@ -152,6 +210,36 @@ export const dict = {
       ],
     },
     providers: { kicker: 'Trae tu propio modelo', title: 'Cinco proveedores. O ninguno.' },
+    faq: {
+      kicker: 'Preguntas',
+      title: 'Las incómodas, respondidas',
+      items: [
+        {
+          q: '¿Esto es legal siquiera?',
+          a: 'Tayori es una herramienta; cómo la uses es cosa tuya. Muchas empresas restringen los asistentes de IA en sus procesos, y las plataformas de evaluación técnica suelen prohibirlos — algunas detectan el pegado masivo aunque no vean la ventana. Comprueba qué aplica en tu caso.',
+        },
+        {
+          q: '¿Se puede detectar al compartir pantalla?',
+          a: 'El overlay no aparece en Meet, Zoom, Teams, Discord ni OBS — Windows lo excluye del frame capturado. Pero no te protege de una cámara apuntando a tu pantalla, de software de proctoring que enumere procesos, ni de lo que digas en voz alta.',
+        },
+        {
+          q: '¿Mi audio o mis datos salen de mi equipo?',
+          a: 'El audio nunca toca el disco y no se escribe ningún archivo de audio. Con Whisper local + Ollama no sale nada de tu máquina. Con un proveedor en la nube, las llamadas van directas al que elijas — no hay servidor intermedio. El historial está apagado por defecto.',
+        },
+        {
+          q: '¿Hay versión para Mac o Linux?',
+          a: 'Todavía no. La invisibilidad depende de un flag de exclusión de captura propio de Windows, así que por ahora Tayori es solo para Windows 10 (2004+) y Windows 11.',
+        },
+        {
+          q: '¿Cuánto cuesta?',
+          a: 'La app es gratis y open source (MIT), sin cuentas y sin monetización. Solo pagas a tu proveedor de IA por el uso — o nada, si corres todo local con Ollama + Whisper.',
+        },
+        {
+          q: '¿Necesito una API key?',
+          a: 'Para modelos en la nube, sí — Anthropic, Google, OpenAI o DeepSeek. O sáltate las keys y corre modelos locales con Ollama y Whisper. Un asistente mide tu equipo y te recomienda qué usar.',
+        },
+      ],
+    },
     download: {
       kicker: 'Consigue Tayori',
       title: 'Descarga y ejecuta — sin instalador',

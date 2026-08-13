@@ -56,7 +56,7 @@ export function Hero() {
           <div className="relative flex justify-center lg:justify-end">
             <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-violet-600/20 blur-3xl" />
             <Mascot className="floaty pointer-events-none absolute -top-10 -left-2 z-10 h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:-left-6 lg:-left-10" />
-            <OverlayMock />
+            <OverlayMock animated />
           </div>
         </div>
       </div>
