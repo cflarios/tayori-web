@@ -53,14 +53,20 @@ export function Hero() {
           </div>
 
           {/* Right: overlay mock with the mascot peeking in */}
-          <div className="relative flex justify-center lg:justify-end">
-            <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-violet-600/20 blur-3xl" />
-            {/* Hidden on phones — the mobile hero is too tight for a floating
-                peeker without colliding with the card or the version badge.
-                The ghost still lives in the nav, footer and the vanish demo.
-                From sm+ it peeks from the top-left, beside the card. */}
-            <Mascot className="floaty pointer-events-none absolute -top-10 -left-6 z-10 hidden h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:block lg:-left-10" />
-            <OverlayMock animated />
+          <div className="flex justify-center lg:justify-end">
+            {/* This wrapper hugs the card (max-w-[400px]) so the mascot is
+                positioned relative to the CARD, not the full-width column —
+                otherwise it floats orphaned to the left on centered tablet
+                layouts (sm–lg, single column). */}
+            <div className="relative w-full max-w-[400px]">
+              <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-violet-600/20 blur-3xl" />
+              {/* Hidden on phones — the mobile hero is too tight for a floating
+                  peeker without colliding with the card or the version badge.
+                  The ghost still lives in the nav, footer and the vanish demo.
+                  From sm+ it peeks from the card's top-left corner. */}
+              <Mascot className="floaty pointer-events-none absolute -top-10 -left-10 z-10 hidden h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:block" />
+              <OverlayMock animated />
+            </div>
           </div>
         </div>
       </div>
