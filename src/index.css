@@ -32,7 +32,9 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  /* `clip`, not `hidden`: prevents horizontal scroll without turning <body>
+     into a scroll container, which would clip the position:fixed nav on scroll. */
+  overflow-x: clip;
 }
 
 /* Ambient background: fixed neon aurora that sits behind everything. */
