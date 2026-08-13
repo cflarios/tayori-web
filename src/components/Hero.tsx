@@ -55,7 +55,9 @@ export function Hero() {
           {/* Right: overlay mock with the mascot peeking in */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-violet-600/20 blur-3xl" />
-            <Mascot className="floaty pointer-events-none absolute -top-10 -left-2 z-10 h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:-left-6 lg:-left-10" />
+            {/* Mobile: perch above the card's top-right corner (clear of the
+                title bar). sm+: peek from the top-left, beside the card. */}
+            <Mascot className="floaty pointer-events-none absolute z-10 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] -top-[4.25rem] right-1 h-16 w-16 sm:-top-10 sm:right-auto sm:-left-6 sm:h-24 sm:w-24 lg:-left-10" />
             <OverlayMock animated />
           </div>
         </div>
