@@ -55,9 +55,11 @@ export function Hero() {
           {/* Right: overlay mock with the mascot peeking in */}
           <div className="relative flex justify-center lg:justify-end">
             <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-violet-600/20 blur-3xl" />
-            {/* Mobile: perch above the card's top-right corner (clear of the
-                title bar). sm+: peek from the top-left, beside the card. */}
-            <Mascot className="floaty pointer-events-none absolute z-10 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] -top-[4.25rem] right-1 h-16 w-16 sm:-top-10 sm:right-auto sm:-left-6 sm:h-24 sm:w-24 lg:-left-10" />
+            {/* Hidden on phones — the mobile hero is too tight for a floating
+                peeker without colliding with the card or the version badge.
+                The ghost still lives in the nav, footer and the vanish demo.
+                From sm+ it peeks from the top-left, beside the card. */}
+            <Mascot className="floaty pointer-events-none absolute -top-10 -left-6 z-10 hidden h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:block lg:-left-10" />
             <OverlayMock animated />
           </div>
         </div>
