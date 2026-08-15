@@ -412,18 +412,19 @@ export const DOCS: DocSection[] = [
             <Kbd>Ctrl+Alt+C</Kbd> resuelve <strong>código</strong> y <Kbd>Ctrl+Alt+Q</Kbd> responde <strong>tests</strong>.
             Comparten captura de alta calidad, perfil propio y modelo con visión, y se separan solo en cómo responden.
           </p>
+          <h3>Modo código</h3>
           <p>
-            <strong>Modo código</strong> devuelve el enfoque con su complejidad en una línea, el código completo en un
-            bloque con botón <strong>Copiar</strong>, y como mucho tres apuntes. Si se corta, aparece <strong>Continuar</strong>,
-            que sigue desde donde se quedó pegándose a la misma respuesta.
+            Devuelve el enfoque con su complejidad en una línea, el código completo en un bloque con botón{' '}
+            <strong>Copiar</strong>, y como mucho tres apuntes. Si se corta, aparece <strong>Continuar</strong>, que
+            sigue desde donde se quedó pegándose a la misma respuesta.
           </p>
-          <p>
-            <strong>Modo test</strong> responde todas las preguntas que se vean, una línea por pregunta. Dos marcas:
-          </p>
+          <h3>Modo test</h3>
+          <p>Responde todas las preguntas que se vean, una línea por pregunta. Dos marcas:</p>
           <ul>
             <li><code>DUDA:</code> — el modelo no está seguro y da igualmente su mejor opción.</li>
             <li><code>NO SE VE:</code> — no se leían todas las opciones; repite con la pregunta entera a la vista.</li>
           </ul>
+          <h3>Con qué modelo</h3>
           <Callout tone="warn">
             <strong>Necesita un modelo con visión</strong> (Claude, Gemini, OpenAI u Ollama multimodal). Puedes usar uno
             distinto del que responde a la voz en <em>dashboard → Modelo para la pantalla</em>.
@@ -436,18 +437,19 @@ export const DOCS: DocSection[] = [
             They share high-quality capture, their own profile and a vision-capable model, and split only in how they
             answer.
           </p>
+          <h3>Code mode</h3>
           <p>
-            <strong>Code mode</strong> returns the approach with its complexity in one line, the complete code in a
-            block with a <strong>Copy</strong> button, and at most three notes. If it gets cut off, a{' '}
-            <strong>Continue</strong> button picks up where it left off, glued to the same answer.
+            Returns the approach with its complexity in one line, the complete code in a block with a{' '}
+            <strong>Copy</strong> button, and at most three notes. If it gets cut off, a <strong>Continue</strong> button
+            picks up where it left off, glued to the same answer.
           </p>
-          <p>
-            <strong>Quiz mode</strong> answers every question on screen, one line per question. Two marks:
-          </p>
+          <h3>Quiz mode</h3>
+          <p>Answers every question on screen, one line per question. Two marks:</p>
           <ul>
             <li><code>DOUBT:</code> — the model isn't sure and gives its best option anyway.</li>
             <li><code>NOT VISIBLE:</code> — not all options were readable; repeat with the whole question in view.</li>
           </ul>
+          <h3>Which model</h3>
           <Callout tone="warn">
             <strong>It needs a vision-capable model</strong> (Claude, Gemini, OpenAI or multimodal Ollama). You can use a
             different one from the voice model in <em>dashboard → Model for the screen</em>.
@@ -515,10 +517,17 @@ export const DOCS: DocSection[] = [
             [<strong>Skill</strong>, l === 'es' ? 'La manera de escribir' : 'The way of writing', l === 'es' ? 'Qué palabras evitar, qué tono' : 'Which words to avoid, what tone'],
           ]}
         />
+        <h3>{l === 'es' ? 'Escribir una' : 'Writing one'}</h3>
         <p>
           {l === 'es'
-            ? 'Cada skill es una carpeta con un SKILL.md dentro (el formato de Anthropic). Dashboard → Skills → Abrir carpeta te lleva a %APPDATA%\\Tayori\\skills. Actívala desde el desplegable del overlay, o escribe /nombre para un solo mensaje. Solo hay una activa a la vez.'
-            : 'Each skill is a folder with a SKILL.md inside (Anthropic’s format). Dashboard → Skills → Open folder takes you to %APPDATA%\\Tayori\\skills. Activate it from the overlay dropdown, or type /name for a single message. Only one is active at a time.'}
+            ? 'Cada skill es una carpeta con un SKILL.md dentro (el formato de Anthropic, así que una skill de otra herramienta suele funcionar tal cual). Dashboard → Skills → Abrir carpeta te lleva a %APPDATA%\\Tayori\\skills. Los scripts y assets que el formato admite se ignoran a propósito: solo se lee el SKILL.md.'
+            : 'Each skill is a folder with a SKILL.md inside (Anthropic’s format, so a skill from another tool usually works as-is). Dashboard → Skills → Open folder takes you to %APPDATA%\\Tayori\\skills. The scripts and assets the format allows are ignored on purpose: only the SKILL.md is read.'}
+        </p>
+        <h3>{l === 'es' ? 'Usarlas' : 'Using them'}</h3>
+        <p>
+          {l === 'es'
+            ? 'Actívala desde el desplegable del overlay o el dashboard (aplica a todo, incluidas las respuestas automáticas), o escribe /nombre al principio de un mensaje. Solo hay una activa a la vez: dos instrucciones sobre cómo escribir se contradicen enseguida.'
+            : 'Activate it from the overlay dropdown or the dashboard (it applies to everything, including automatic answers), or type /name at the start of a message. Only one is active at a time: two instructions about how to write contradict each other quickly.'}
         </p>
       </>
     ),
@@ -612,10 +621,12 @@ export const DOCS: DocSection[] = [
             <li>La herramienta de recorte de Windows y las capturas de la propia app.</li>
           </ul>
           <p>Aplica al overlay <strong>y a la ventana de configuración</strong> (que tiene tus keys, tu CV y el historial).</p>
+          <h3>De qué no protege</h3>
           <Callout tone="warn">
             <strong>No te protege de:</strong> una cámara apuntando a tu pantalla, software de proctoring que enumere
             procesos, lo que digas en voz alta, o alguien mirando por encima de tu hombro.
           </Callout>
+          <h3>En el Administrador de tareas</h3>
           <p>
             Requiere Windows 10 2004+. En versiones anteriores degrada a <code>WDA_MONITOR</code> y la ventana sale como
             un rectángulo negro. El proceso se llama <strong>Tayori</strong> en el Administrador de tareas; eso es
@@ -635,10 +646,12 @@ export const DOCS: DocSection[] = [
             <li>The Windows Snipping Tool and the app's own screenshots.</li>
           </ul>
           <p>It applies to the overlay <strong>and the settings window</strong> (which has your keys, your CV and the history).</p>
+          <h3>What it doesn't protect from</h3>
           <Callout tone="warn">
             <strong>It does not protect you from:</strong> a camera pointed at your screen, proctoring software that
             enumerates processes, what you say out loud, or someone looking over your shoulder.
           </Callout>
+          <h3>In Task Manager</h3>
           <p>
             It requires Windows 10 2004+. On older versions it degrades to <code>WDA_MONITOR</code> and the window comes
             out as a black rectangle. The process is called <strong>Tayori</strong> in Task Manager; that's cosmetic —
@@ -837,11 +850,13 @@ export const DOCS: DocSection[] = [
             ['Whisper local', '~0.8–1.5 s', l === 'es' ? 'A ningún sitio' : 'Nowhere'],
           ]}
         />
+        <h3>{l === 'es' ? 'La guía de modelos' : 'The model guide'}</h3>
         <p>
           {l === 'es'
             ? 'El dashboard mide tu RAM, CPU y GPU y recomienda dos modelos locales (conversar y pantalla) con el comando ollama pull listo. El botón «Abrir la guía» genera un documento con todos los modelos por tramo de memoria, los multimodales aparte y los de pago por precio.'
             : 'The dashboard measures your RAM, CPU and GPU and recommends two local models (converse and screen) with the ollama pull command ready. "Open the guide" generates a document with all models by memory tier, the multimodal ones separately, and the paid ones by price.'}
         </p>
+        <h3>{l === 'es' ? 'El contexto de Ollama' : 'Ollama’s context window'}</h3>
         <Callout tone="warn">
           {l === 'es' ? (
             <>

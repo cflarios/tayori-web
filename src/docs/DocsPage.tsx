@@ -198,6 +198,59 @@ function SidebarNav({ currentId, onNavigate }: { currentId: string; onNavigate?:
   )
 }
 
+/* ----------------------------------------------------- "on this page" (h3 TOC) */
+
+function slugify(text: string): string {
+  return (
+    text
+      .normalize('NFD')
+      .toLowerCase()
+      .trim()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .slice(0, 40) || 'section'
+  )
+}
+
+/** Reads the current page's <h3> subheadings, gives them stable ids, and tracks
+ *  which one is in view. Reruns when the page or language changes. */
+function useToc(key: string) {
+  const [items, setItems] = useState<{ id: string; text: string }[]>([])
+  const [active, setActive] = useState('')
+
+  useEffect(() => {
+    const hs = Array.from(document.querySelectorAll<HTMLHeadingElement>('article .doc-prose h3'))
+    const used = new Set<string>()
+    const list = hs.map((h) => {
+      let id = slugify(h.textContent ?? '')
+      let n = 1
+      while (used.has(id)) id = `${slugify(h.textContent ?? '')}-${n++}`
+      used.add(id)
+      h.id = id
+      return { id, text: h.textContent ?? '' }
+    })
+    setItems(list)
+    setActive(list[0]?.id ?? '')
+
+    if (hs.length === 0) return
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting)
+        if (visible.length) {
+          const top = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b))
+          setActive(top.target.id)
+        }
+      },
+      { rootMargin: '-88px 0px -70% 0px', threshold: 0 },
+    )
+    hs.forEach((h) => obs.observe(h))
+    return () => obs.disconnect()
+  }, [key])
+
+  return { items, active }
+}
+
 /* ---------------------------------------------------------------- prev / next */
 
 function PrevNextLink({ to, dir, title }: { to: string; dir: 'prev' | 'next'; title: string }) {
@@ -234,9 +287,16 @@ export function DocsPage() {
   const next = DOCS[currentIndex + 1]
   const group = GROUPS.find((g) => g.id === current.group)
 
+  const toc = useToc(`${current.id}|${lang}`)
+  const showToc = toc.items.length >= 2
+
   return (
     <div className="pt-16">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 py-10 lg:grid-cols-[264px_minmax(0,1fr)]">
+      <div
+        className={`mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 py-10 lg:grid-cols-[264px_minmax(0,1fr)] ${
+          showToc ? 'xl:grid-cols-[264px_minmax(0,1fr)_200px]' : ''
+        }`}
+      >
         {/* Desktop sidebar */}
         <aside className="hidden lg:block">
           <div className="sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-5 overflow-y-auto pb-8 pr-2">
@@ -285,6 +345,33 @@ export function DocsPage() {
             </div>
           </article>
         </div>
+
+        {/* Right-hand "on this page" TOC — only on wide screens and long pages */}
+        {showToc && (
+          <aside className="hidden xl:block">
+            <div className="sticky top-24">
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-mute-2)]">
+                {lang === 'es' ? 'En esta página' : 'On this page'}
+              </div>
+              <ul className="flex flex-col border-l border-[var(--color-line)]">
+                {toc.items.map((it) => (
+                  <li key={it.id}>
+                    <a
+                      href={`#${it.id}`}
+                      className={`-ml-px block border-l py-1.5 pl-4 text-[13px] leading-snug transition-colors ${
+                        toc.active === it.id
+                          ? 'border-cyan-400 text-white'
+                          : 'border-transparent text-[var(--color-mute)] hover:border-white/30 hover:text-white'
+                      }`}
+                    >
+                      {it.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </aside>
+        )}
       </div>
     </div>
   )
