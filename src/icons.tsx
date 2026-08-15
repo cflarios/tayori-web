@@ -93,6 +93,12 @@ export const Icon = {
       <path d="M5 12h14M13 6l6 6-6 6" />
     </svg>
   ),
+  search: (p: P) => (
+    <svg {...base(p)}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="M21 21l-4.3-4.3" />
+    </svg>
+  ),
   check: (p: P) => (
     <svg {...base(p)}>
       <path d="M4 12l5 5L20 6" />

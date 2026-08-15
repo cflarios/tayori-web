@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import { isValidElement, type ReactNode } from 'react'
 import type { Lang } from '../i18n'
 
 /* ---------------------------------------------------------------- primitives */
@@ -44,6 +44,37 @@ export function DocTable({ head, rows }: { head: ReactNode[]; rows: ReactNode[][
 type Bi = { en: string; es: string }
 export type DocGroup = { id: string; label: Bi }
 export type DocSection = { id: string; group: string; title: Bi; body: (lang: Lang) => ReactNode }
+
+/** Walk a section's element tree and pull out its plain text, for search.
+ *  Recurses into children (and DocTable's head/rows) but not into style props
+ *  like className, so the index stays free of Tailwind class names. */
+function collectText(node: ReactNode): string {
+  if (node == null || typeof node === 'boolean') return ''
+  if (typeof node === 'string' || typeof node === 'number') return String(node)
+  if (Array.isArray(node)) return node.map(collectText).join(' ')
+  if (isValidElement(node)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const el = node as any
+    if (el.type === DocTable) return `${collectText(el.props.head)} ${collectText(el.props.rows)}`
+    return collectText(el.props?.children)
+  }
+  return ''
+}
+
+export type SearchEntry = { id: string; group: string; title: string; text: string }
+const indexCache: Partial<Record<Lang, SearchEntry[]>> = {}
+
+export function buildDocsIndex(lang: Lang): SearchEntry[] {
+  if (!indexCache[lang]) {
+    indexCache[lang] = DOCS.map((d) => ({
+      id: d.id,
+      group: d.group,
+      title: d.title[lang],
+      text: collectText(d.body(lang)).replace(/\s+/g, ' ').trim(),
+    }))
+  }
+  return indexCache[lang]!
+}
 
 export const GROUPS: DocGroup[] = [
   { id: 'start', label: { en: 'Getting started', es: 'Primeros pasos' } },
