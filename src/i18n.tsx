@@ -5,7 +5,7 @@ export type Lang = 'en' | 'es'
 /** Full bilingual copy for the landing. One object per language, same shape. */
 export const dict = {
   en: {
-    nav: { features: 'Features', privacy: 'Privacy', how: 'How it works', faq: 'FAQ', download: 'Download' },
+    nav: { features: 'Features', privacy: 'Privacy', how: 'How it works', faq: 'FAQ', docs: 'Docs', download: 'Download' },
     hero: {
       badge: 'Open source · MIT · Runs on your machine',
       title: ['Your AI wingman for the call.', 'Invisible when you share your screen.'],
@@ -124,9 +124,10 @@ export const dict = {
         product: 'Product',
         resources: 'Resources',
         productLinks: [
-          { t: 'Features', href: '#features' },
-          { t: 'Privacy', href: '#privacy' },
-          { t: 'Download', href: '#download' },
+          { t: 'Features', href: '/#features' },
+          { t: 'Docs', href: '/docs' },
+          { t: 'Privacy', href: '/#privacy' },
+          { t: 'Download', href: '/#download' },
         ],
         resourceLinks: [
           { t: 'GitHub', href: 'https://github.com/cflarios/Tayori' },
@@ -140,7 +141,7 @@ export const dict = {
   },
 
   es: {
-    nav: { features: 'Funciones', privacy: 'Privacidad', how: 'Cómo funciona', faq: 'FAQ', download: 'Descargar' },
+    nav: { features: 'Funciones', privacy: 'Privacidad', how: 'Cómo funciona', faq: 'FAQ', docs: 'Docs', download: 'Descargar' },
     hero: {
       badge: 'Open source · MIT · Corre en tu equipo',
       title: ['Tu copiloto de IA para la llamada.', 'Invisible cuando compartes pantalla.'],
@@ -259,9 +260,10 @@ export const dict = {
         product: 'Producto',
         resources: 'Recursos',
         productLinks: [
-          { t: 'Funciones', href: '#features' },
-          { t: 'Privacidad', href: '#privacy' },
-          { t: 'Descargar', href: '#download' },
+          { t: 'Funciones', href: '/#features' },
+          { t: 'Docs', href: '/docs' },
+          { t: 'Privacidad', href: '/#privacy' },
+          { t: 'Descargar', href: '/#download' },
         ],
         resourceLinks: [
           { t: 'GitHub', href: 'https://github.com/cflarios/Tayori' },

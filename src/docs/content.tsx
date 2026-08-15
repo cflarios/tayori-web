@@ -1,0 +1,873 @@
+import type { ReactNode } from 'react'
+import type { Lang } from '../i18n'
+
+/* ---------------------------------------------------------------- primitives */
+
+export function Kbd({ children }: { children: ReactNode }) {
+  return <kbd>{children}</kbd>
+}
+
+export function Callout({ tone = 'info', children }: { tone?: 'info' | 'tip' | 'warn'; children: ReactNode }) {
+  const map = {
+    info: 'border-violet-400/30 bg-violet-500/8 text-violet-100',
+    tip: 'border-cyan-400/30 bg-cyan-500/8 text-cyan-50',
+    warn: 'border-amber-400/30 bg-amber-500/8 text-amber-50',
+  } as const
+  const icon = { info: 'ℹ', tip: '✦', warn: '⚠' } as const
+  return (
+    <div className={`not-prose flex gap-3 rounded-xl border p-4 text-[14px] leading-relaxed ${map[tone]}`}>
+      <span className="select-none pt-0.5 opacity-80">{icon[tone]}</span>
+      <div className="[&_strong]:text-white">{children}</div>
+    </div>
+  )
+}
+
+export function DocTable({ head, rows }: { head: ReactNode[]; rows: ReactNode[][] }) {
+  return (
+    <div className="overflow-x-auto">
+      <table>
+        <thead>
+          <tr>{head.map((h, i) => <th key={i}>{h}</th>)}</tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )
+}
+
+/* --------------------------------------------------------------------- model */
+
+type Bi = { en: string; es: string }
+export type DocGroup = { id: string; label: Bi }
+export type DocSection = { id: string; group: string; title: Bi; body: (lang: Lang) => ReactNode }
+
+export const GROUPS: DocGroup[] = [
+  { id: 'start', label: { en: 'Getting started', es: 'Primeros pasos' } },
+  { id: 'use', label: { en: 'Using it', es: 'Uso' } },
+  { id: 'privacy', label: { en: 'Privacy & safety', es: 'Privacidad y seguridad' } },
+  { id: 'integrations', label: { en: 'Integrations', es: 'Integraciones' } },
+  { id: 'reference', label: { en: 'Reference', es: 'Referencia' } },
+]
+
+const GH = 'https://github.com/cflarios/Tayori'
+
+export const DOCS: DocSection[] = [
+  /* ============================================================ getting started */
+  {
+    id: 'introduction',
+    group: 'start',
+    title: { en: 'Introduction', es: 'Introducción' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            <strong>Tayori</strong> es un asistente de IA en tiempo real para reuniones y entrevistas. Escucha la
+            llamada, transcribe quién dice qué y sugiere respuestas en un overlay flotante que{' '}
+            <strong>permanece invisible cuando compartes pantalla</strong>.
+          </p>
+          <p>
+            Es open source (MIT), sin monetización. Todo corre en tu máquina y las llamadas van directas al proveedor
+            de IA que elijas — <strong>no hay servidor intermedio</strong>.
+          </p>
+          <ul>
+            <li>
+              <strong>Escucha dos fuentes por separado</strong> — tu micrófono y el audio del sistema —, así sabe quién
+              habla sin diarización.
+            </li>
+            <li>
+              <strong>Transcribe en vivo</strong> con OpenAI, Gemini Live (~300&nbsp;ms) o Whisper local (offline).
+            </li>
+            <li>
+              <strong>Sugiere respuestas</strong> con Claude, Gemini, ChatGPT, DeepSeek u Ollama, en streaming.
+            </li>
+            <li>
+              <strong>Detecta preguntas</strong> dirigidas a ti — incluso disfrazadas de afirmación — y responde sola o
+              solo con un atajo.
+            </li>
+            <li>
+              <strong>Resuelve la pantalla</strong>: código (<Kbd>Ctrl+Alt+C</Kbd>) o tests (<Kbd>Ctrl+Alt+Q</Kbd>) con
+              un modelo con visión.
+            </li>
+            <li>
+              <strong>Funciona 100% offline</strong> con Whisper local + Ollama.
+            </li>
+          </ul>
+          <Callout tone="tip">
+            <strong>El nombre.</strong> «Tayori» viene de <em>頼りになった</em> — «se volvió algo en lo que confiar».
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            <strong>Tayori</strong> is a real-time AI assistant for meetings and interviews. It listens to the call,
+            transcribes who says what, and suggests answers in a floating overlay that{' '}
+            <strong>stays invisible when you share your screen</strong>.
+          </p>
+          <p>
+            It's open source (MIT), with no monetization. Everything runs on your machine and calls go straight to the
+            AI provider you pick — <strong>there is no server in between</strong>.
+          </p>
+          <ul>
+            <li>
+              <strong>Dual-source listening</strong> — your microphone and the system audio, captured separately — so
+              it knows who is speaking without diarization.
+            </li>
+            <li>
+              <strong>Live transcription</strong> with OpenAI, Gemini Live (~300&nbsp;ms) or Whisper local (offline).
+            </li>
+            <li>
+              <strong>Answer suggestions</strong> with Claude, Gemini, ChatGPT, DeepSeek or Ollama, streamed as they
+              are generated.
+            </li>
+            <li>
+              <strong>Question detection</strong> — it spots questions aimed at you, even ones disguised as statements,
+              and can answer automatically or only on a hotkey.
+            </li>
+            <li>
+              <strong>Screen actions</strong>: solve code (<Kbd>Ctrl+Alt+C</Kbd>) or a quiz (<Kbd>Ctrl+Alt+Q</Kbd>)
+              with a vision-capable model.
+            </li>
+            <li>
+              <strong>Fully offline</strong> when paired with Whisper local + Ollama.
+            </li>
+          </ul>
+          <Callout tone="tip">
+            <strong>The name.</strong> "Tayori" comes from <em>頼りになった</em> — "it became something you can rely on".
+          </Callout>
+        </>
+      ),
+  },
+  {
+    id: 'requirements',
+    group: 'start',
+    title: { en: 'Requirements', es: 'Requisitos' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <ul>
+            <li>Windows 10 versión 2004 o superior (Windows 11 recomendado).</li>
+            <li>Node.js 20+ y npm, solo para compilar desde el código.</li>
+            <li>
+              Al menos una API key:{' '}
+              <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer">Anthropic</a>,{' '}
+              <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer">Google AI Studio</a>,{' '}
+              <a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer">OpenAI</a> o{' '}
+              <a href="https://platform.deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a>. Ollama y
+              Whisper local no necesitan ninguna.
+            </li>
+          </ul>
+          <ul>
+            <li>Las de Google y OpenAI valen además para <strong>transcribir</strong>. Anthropic y DeepSeek solo responden.</li>
+            <li><strong>DeepSeek no lee imágenes</strong>, así que no sirve para los botones de pantalla.</li>
+          </ul>
+        </>
+      ) : (
+        <>
+          <ul>
+            <li>Windows 10 version 2004 or newer (Windows 11 recommended).</li>
+            <li>Node.js 20+ and npm, only to build from source.</li>
+            <li>
+              At least one API key:{' '}
+              <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer">Anthropic</a>,{' '}
+              <a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer">Google AI Studio</a>,{' '}
+              <a href="https://platform.openai.com" target="_blank" rel="noopener noreferrer">OpenAI</a> or{' '}
+              <a href="https://platform.deepseek.com" target="_blank" rel="noopener noreferrer">DeepSeek</a>. Ollama and
+              Whisper local need none.
+            </li>
+          </ul>
+          <ul>
+            <li>The Google and OpenAI keys also work for <strong>transcription</strong>. Anthropic and DeepSeek only answer.</li>
+            <li><strong>DeepSeek can't read images</strong>, so it doesn't work for the screen buttons.</li>
+          </ul>
+        </>
+      ),
+  },
+  {
+    id: 'installation',
+    group: 'start',
+    title: { en: 'Installation', es: 'Instalación' },
+    body: (l) => (
+      <>
+        <p>
+          {l === 'es'
+            ? 'La forma más rápida es descargar el ejecutable portable desde el botón de descarga. Para compilar desde el código:'
+            : 'The fastest path is the portable executable from the download button. To build from source:'}
+        </p>
+        <pre>
+          <code>npm install{'\n'}npm run dev</code>
+        </pre>
+        <p>{l === 'es' ? 'Para generar instalador y portable (~98 MB cada uno):' : 'To generate an installer and a portable executable (~98 MB each):'}</p>
+        <pre>
+          <code>npm run build:win</code>
+        </pre>
+        <Callout tone="warn">
+          {l === 'es' ? (
+            <>
+              El binario no está firmado, así que <strong>SmartScreen</strong> avisará la primera vez: «Más
+              información» → «Ejecutar de todas formas».
+            </>
+          ) : (
+            <>
+              The binary is unsigned, so <strong>SmartScreen</strong> warns the first time: "More info" → "Run anyway".
+            </>
+          )}
+        </Callout>
+        <p>
+          {l === 'es'
+            ? 'Cada release incluye un SHA256SUMS.txt para verificar que la descarga es byte a byte lo que compiló CI:'
+            : 'Every release ships a SHA256SUMS.txt so you can confirm the download is byte-for-byte what CI built:'}
+        </p>
+        <pre>
+          <code>Get-FileHash Tayori-&lt;version&gt;-portable.exe -Algorithm SHA256</code>
+        </pre>
+      </>
+    ),
+  },
+  {
+    id: 'guided-setup',
+    group: 'start',
+    title: { en: 'Guided setup', es: 'Configuración guiada' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            La primera vez que abres el dashboard, un asistente lo deja todo funcionando sin que tengas que saber qué es
+            un proveedor ni cuánta RAM tienes. Mide tu equipo y propone dos caminos:
+          </p>
+          <ul>
+            <li>
+              <strong>En la nube.</strong> Eliges Claude, Gemini, ChatGPT o DeepSeek, pegas la API key y listo. Pagas al
+              proveedor por uso.
+            </li>
+            <li>
+              <strong>En tu equipo.</strong> Si no tienes Ollama, lo instala con <code>winget</code> (con su aviso de
+              permiso) y descarga dos modelos que le peguen a tu hardware: uno para conversar y otro para leer la
+              pantalla.
+            </li>
+          </ul>
+          <p>
+            Después resuelve la transcripción (Gemini Live o Whisper local) y te ofrece pegar el CV. Nada se instala ni
+            se descarga sin que lo pidas: cada acción va detrás de un botón que dice antes qué va a hacer.
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            The first time you open the dashboard, a wizard gets everything working without you needing to know what a
+            provider is or how much RAM you have. It measures your machine and proposes two paths:
+          </p>
+          <ul>
+            <li>
+              <strong>In the cloud.</strong> Pick Claude, Gemini, ChatGPT or DeepSeek, paste the API key, done. You pay
+              the provider per use.
+            </li>
+            <li>
+              <strong>On your machine.</strong> If you don't have Ollama, it installs it with <code>winget</code> (with
+              its own permission prompt) and downloads two models that fit your hardware: one to converse and one to
+              read the screen.
+            </li>
+          </ul>
+          <p>
+            Then it sorts out transcription (Gemini Live or Whisper local) and offers to paste your CV. Nothing is
+            installed or downloaded without you asking: every action sits behind a button that says what it's about to
+            do.
+          </p>
+        </>
+      ),
+  },
+  {
+    id: 'first-steps',
+    group: 'start',
+    title: { en: 'First steps', es: 'Primeros pasos' },
+    body: (l) =>
+      l === 'es' ? (
+        <ol>
+          <li>Arranca la app. Aparece solo el overlay, arriba a la derecha.</li>
+          <li>Abre la configuración desde el menú <Kbd>⋯</Kbd> de su barra superior — es la única forma de abrirla.</li>
+          <li>Pega tu API key de Anthropic, Google, OpenAI o DeepSeek.</li>
+          <li>Elige <strong>qué se escucha</strong>. Por defecto son ambas fuentes; puedes dejar solo la salida del sistema.</li>
+          <li>En <strong>Contexto</strong>, añade tu CV y la descripción del puesto: evita que el modelo invente experiencia y mejora el reconocimiento de nombres.</li>
+          <li>Pulsa <strong>Empezar a escuchar</strong> y comprueba que los medidores se mueven.</li>
+        </ol>
+      ) : (
+        <ol>
+          <li>Launch the app. Only the overlay shows up, top-right.</li>
+          <li>Open the settings from the <Kbd>⋯</Kbd> menu in its top bar — that's the only way to open it.</li>
+          <li>Paste your API key for Anthropic, Google, OpenAI or DeepSeek.</li>
+          <li>Choose <strong>what is heard</strong>. By default it's both sources; you can leave only the system output.</li>
+          <li>In <strong>Context</strong>, add your CV and the job description: it stops the model inventing experience and improves name recognition.</li>
+          <li>Press <strong>Start listening</strong> and check that the meters move.</li>
+        </ol>
+      ),
+  },
+
+  /* =================================================================== using it */
+  {
+    id: 'overlay',
+    group: 'use',
+    title: { en: 'The overlay', es: 'El overlay' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>Todo lo que se usa a mitad de una llamada está en la barra superior, sin abrir la configuración:</p>
+          <ul>
+            <li><strong>Escuchar / Escuchando</strong> — empieza y para la escucha. Si algo falla, pasa a «Reintentar».</li>
+            <li><strong>Yo / Ellos</strong> — qué fuentes se escuchan. Un chip <strong>ámbar</strong> significa que esa fuente está configurada pero no llegó a abrirse.</li>
+            <li><strong>Código</strong> y <strong>Test</strong> — resuelven lo que haya en la pantalla.</li>
+            <li><Kbd>⋯</Kbd> — plegar, configuración, nueva conversación y salir.</li>
+            <li><strong>Perfiles</strong> — la fila de abajo; cambian el registro de la respuesta.</li>
+            <li><Kbd>‹ 2/5 ›</Kbd> — vuelve a respuestas anteriores sin abrir el historial.</li>
+          </ul>
+          <p>Muévelo arrastrando la barra o con <Kbd>Ctrl+Alt+flechas</Kbd>. Ocúltalo con <Kbd>Ctrl+Shift+H</Kbd>.</p>
+        </>
+      ) : (
+        <>
+          <p>Everything you use mid-call is in the top bar, without opening the settings:</p>
+          <ul>
+            <li><strong>Listen / Listening</strong> — starts and stops listening. If something fails, it turns to "Retry".</li>
+            <li><strong>You / Them</strong> — which sources are heard. An <strong>amber</strong> chip means that source is configured but didn't manage to open.</li>
+            <li><strong>Code</strong> and <strong>Quiz</strong> — solve whatever's on the screen.</li>
+            <li><Kbd>⋯</Kbd> — collapse, settings, new conversation and quit.</li>
+            <li><strong>Profiles</strong> — the bottom row; they change the register of the answer.</li>
+            <li><Kbd>‹ 2/5 ›</Kbd> — go back to earlier answers without opening the history.</li>
+          </ul>
+          <p>Move it by dragging the bar or with <Kbd>Ctrl+Alt+arrows</Kbd>. Hide it with <Kbd>Ctrl+Shift+H</Kbd>.</p>
+        </>
+      ),
+  },
+  {
+    id: 'shortcuts',
+    group: 'use',
+    title: { en: 'Keyboard shortcuts', es: 'Atajos de teclado' },
+    body: (l) => (
+      <>
+        <p>{l === 'es' ? 'Todos son globales: funcionan aunque la ventana de la videollamada tenga el foco.' : 'All of them are global: they work even when the video-call window has focus.'}</p>
+        <DocTable
+          head={[l === 'es' ? 'Atajo' : 'Shortcut', l === 'es' ? 'Acción' : 'Action']}
+          rows={[
+            [<Kbd>Ctrl+Enter</Kbd>, l === 'es' ? 'Responder ahora' : 'Answer now'],
+            [<Kbd>Ctrl+Shift+S</Kbd>, l === 'es' ? 'Capturar pantalla y responder' : 'Capture screen and answer'],
+            [<Kbd>Ctrl+Alt+C</Kbd>, l === 'es' ? 'Resolver el código en pantalla' : 'Solve the code on screen'],
+            [<Kbd>Ctrl+Alt+Q</Kbd>, l === 'es' ? 'Responder el test en pantalla' : 'Answer the quiz on screen'],
+            [<Kbd>Ctrl+Alt+A</Kbd>, l === 'es' ? 'Captura por trozos: recolectar' : 'Chunk capture: collect a chunk'],
+            [<Kbd>Ctrl+Alt+S</Kbd>, l === 'es' ? 'Reconstruir y resolver los trozos' : 'Reconstruct and solve the chunks'],
+            [<Kbd>Ctrl+Shift+H</Kbd>, l === 'es' ? 'Mostrar u ocultar el overlay' : 'Show or hide the overlay'],
+            [<Kbd>Ctrl+Shift+M</Kbd>, l === 'es' ? 'Empezar o parar de escuchar' : 'Start or stop listening'],
+            [<Kbd>Ctrl+Shift+C</Kbd>, l === 'es' ? 'Alternar clics atravesables' : 'Toggle click-through'],
+            [<Kbd>Ctrl+Alt+←↑→↓</Kbd>, l === 'es' ? 'Mover el overlay' : 'Move the overlay'],
+            [<Kbd>Ctrl+Alt+X / Z</Kbd>, l === 'es' ? 'Teleprompter: línea siguiente / anterior' : 'Teleprompter: next / previous line'],
+          ]}
+        />
+        <p>
+          {l === 'es'
+            ? 'Todos se pueden cambiar y apagar en dashboard → Atajos de teclado. Apagar uno suelta la combinación para tu editor. Si Windows la rechaza porque otra app la tiene, aparece en rojo.'
+            : 'All of them can be changed and turned off in dashboard → Keyboard shortcuts. Turning one off releases the combination for your editor. If Windows rejects one because another app holds it, it shows up in red.'}
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'screen-actions',
+    group: 'use',
+    title: { en: 'Code & quiz on screen', es: 'Código y test en pantalla' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            <Kbd>Ctrl+Alt+C</Kbd> resuelve <strong>código</strong> y <Kbd>Ctrl+Alt+Q</Kbd> responde <strong>tests</strong>.
+            Comparten captura de alta calidad, perfil propio y modelo con visión, y se separan solo en cómo responden.
+          </p>
+          <p>
+            <strong>Modo código</strong> devuelve el enfoque con su complejidad en una línea, el código completo en un
+            bloque con botón <strong>Copiar</strong>, y como mucho tres apuntes. Si se corta, aparece <strong>Continuar</strong>,
+            que sigue desde donde se quedó pegándose a la misma respuesta.
+          </p>
+          <p>
+            <strong>Modo test</strong> responde todas las preguntas que se vean, una línea por pregunta. Dos marcas:
+          </p>
+          <ul>
+            <li><code>DUDA:</code> — el modelo no está seguro y da igualmente su mejor opción.</li>
+            <li><code>NO SE VE:</code> — no se leían todas las opciones; repite con la pregunta entera a la vista.</li>
+          </ul>
+          <Callout tone="warn">
+            <strong>Necesita un modelo con visión</strong> (Claude, Gemini, OpenAI u Ollama multimodal). Puedes usar uno
+            distinto del que responde a la voz en <em>dashboard → Modelo para la pantalla</em>.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            <Kbd>Ctrl+Alt+C</Kbd> solves <strong>code</strong> and <Kbd>Ctrl+Alt+Q</Kbd> answers <strong>quizzes</strong>.
+            They share high-quality capture, their own profile and a vision-capable model, and split only in how they
+            answer.
+          </p>
+          <p>
+            <strong>Code mode</strong> returns the approach with its complexity in one line, the complete code in a
+            block with a <strong>Copy</strong> button, and at most three notes. If it gets cut off, a{' '}
+            <strong>Continue</strong> button picks up where it left off, glued to the same answer.
+          </p>
+          <p>
+            <strong>Quiz mode</strong> answers every question on screen, one line per question. Two marks:
+          </p>
+          <ul>
+            <li><code>DOUBT:</code> — the model isn't sure and gives its best option anyway.</li>
+            <li><code>NOT VISIBLE:</code> — not all options were readable; repeat with the whole question in view.</li>
+          </ul>
+          <Callout tone="warn">
+            <strong>It needs a vision-capable model</strong> (Claude, Gemini, OpenAI or multimodal Ollama). You can use a
+            different one from the voice model in <em>dashboard → Model for the screen</em>.
+          </Callout>
+        </>
+      ),
+  },
+  {
+    id: 'chunk-capture',
+    group: 'use',
+    title: { en: 'Chunk capture', es: 'Captura por trozos' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            Para un enunciado que un entrevistador comparte y <strong>revela con scroll</strong>, y que no cabe en una
+            sola captura. En vez de capturar-y-resolver, <strong>acumula</strong> varios frames y los manda juntos al
+            modelo, que reconstruye el enunciado uniendo los solapes.
+          </p>
+          <ul>
+            <li><Kbd>Ctrl+Alt+A</Kbd> recolecta un trozo. Púlsalo según scrolleas; un chip lleva la cuenta.</li>
+            <li><Kbd>Ctrl+Alt+S</Kbd> reconstruye y resuelve la pila, y la vacía.</li>
+          </ul>
+          <p>Hay dos modos en <em>dashboard → Comportamiento → Captura por trozos</em>: <strong>Manual</strong> (cada pulsación añade un trozo) y <strong>Automático</strong> (un bucle captura solo y descarta repetidos).</p>
+          <Callout tone="tip">
+            <strong>Fija a pantalla completa</strong> el contenido compartido (el «pin» de Meet/Zoom) antes de recolectar,
+            o el enunciado puede quedar ilegible.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            For a prompt an interviewer shares and <strong>reveals by scrolling</strong>, which doesn't fit in a single
+            capture. Instead of capture-and-solve, it <strong>accumulates</strong> several frames and sends them
+            together to the model, which reconstructs the prompt by stitching the overlaps.
+          </p>
+          <ul>
+            <li><Kbd>Ctrl+Alt+A</Kbd> collects a chunk. Press it as you scroll; a chip keeps the count.</li>
+            <li><Kbd>Ctrl+Alt+S</Kbd> reconstructs and solves the stack, and empties it.</li>
+          </ul>
+          <p>Two modes in <em>dashboard → Behavior → Chunk capture</em>: <strong>Manual</strong> (each press adds a chunk) and <strong>Automatic</strong> (a loop captures on its own and discards repeats).</p>
+          <Callout tone="tip">
+            <strong>Pin the shared content to full screen</strong> (the Meet/Zoom "pin") before collecting, or the prompt
+            may end up illegible.
+          </Callout>
+        </>
+      ),
+  },
+  {
+    id: 'skills',
+    group: 'use',
+    title: { en: 'Skills', es: 'Skills' },
+    body: (l) => (
+      <>
+        <p>
+          {l === 'es'
+            ? 'Una skill es una instrucción tuya que cambia cómo suena la respuesta — el tono y las palabras, no el formato. Se combina con el perfil (la forma) y el contexto (el material):'
+            : 'A skill is an instruction of yours that changes how the answer sounds — the tone and words, not the format. It combines with the profile (the shape) and the context (the material):'}
+        </p>
+        <DocTable
+          head={['', l === 'es' ? 'Decide' : 'Decides', l === 'es' ? 'Ejemplo' : 'Example']}
+          rows={[
+            [<strong>{l === 'es' ? 'Perfil' : 'Profile'}</strong>, l === 'es' ? 'La forma de la respuesta' : 'The shape of the answer', l === 'es' ? '4 viñetas, un bloque de código' : '4 bullets, a code block'],
+            [<strong>{l === 'es' ? 'Contexto' : 'Context'}</strong>, l === 'es' ? 'El material' : 'The material', l === 'es' ? 'Tu CV, la oferta' : 'Your CV, the job offer'],
+            [<strong>Skill</strong>, l === 'es' ? 'La manera de escribir' : 'The way of writing', l === 'es' ? 'Qué palabras evitar, qué tono' : 'Which words to avoid, what tone'],
+          ]}
+        />
+        <p>
+          {l === 'es'
+            ? 'Cada skill es una carpeta con un SKILL.md dentro (el formato de Anthropic). Dashboard → Skills → Abrir carpeta te lleva a %APPDATA%\\Tayori\\skills. Actívala desde el desplegable del overlay, o escribe /nombre para un solo mensaje. Solo hay una activa a la vez.'
+            : 'Each skill is a folder with a SKILL.md inside (Anthropic’s format). Dashboard → Skills → Open folder takes you to %APPDATA%\\Tayori\\skills. Activate it from the overlay dropdown, or type /name for a single message. Only one is active at a time.'}
+        </p>
+      </>
+    ),
+  },
+  {
+    id: 'interpreter',
+    group: 'use',
+    title: { en: 'Interpreter mode', es: 'Modo intérprete' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            Un perfil que, en vez de sugerir respuestas, <strong>traduce</strong>. Se elige en{' '}
+            <em>dashboard → Comportamiento → Perfil → Intérprete</em> y ahí mismo se fijan los dos idiomas.
+          </p>
+          <p>
+            Con él activo, cada intervención se traduce <strong>al otro idioma, en los dos sentidos</strong>. Necesita la
+            escucha y el disparo automático encendidos, y escuchar ambas fuentes. Es de una traducción a la vez.
+          </p>
+          <Callout tone="tip">
+            <strong>El modelo importa aquí.</strong> Un modelo Flash de nube supera a cualquier local en traducción pura;
+            en local, uno multilingüe como Aya Expanse funciona bien. No funciona con el audio directo de Gemini.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            A profile that, instead of suggesting answers, <strong>translates</strong>. Pick it in{' '}
+            <em>dashboard → Behavior → Profile → Interpreter</em> and set the two languages right there.
+          </p>
+          <p>
+            With it on, each turn is translated <strong>to the other language, in both directions</strong>. It needs
+            listening and auto-trigger on, and you need to hear both sources. It's one translation at a time.
+          </p>
+          <Callout tone="tip">
+            <strong>A good model matters here.</strong> A cloud Flash-tier model beats any local one on pure
+            translation; for local, a multilingual model like Aya Expanse works well. It doesn't work with Gemini's
+            direct audio.
+          </Callout>
+        </>
+      ),
+  },
+  {
+    id: 'teleprompter',
+    group: 'use',
+    title: { en: 'Teleprompter mode', es: 'Modo teleprompter' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            Se enciende en <em>dashboard → General → Modo teleprompter</em> y cambia cómo se lee la respuesta terminada:
+            <strong> una frase por línea</strong>, en columna estrecha, con la línea activa siempre en el mismo sitio.
+          </p>
+          <p>
+            La razón: lo que delata que estás leyendo no es el tamaño de la letra, es el <strong>movimiento horizontal
+            de los ojos</strong>. Una columna estrecha con la línea fija hace que los ojos casi no se muevan.
+          </p>
+          <p>Se avanza con <Kbd>Ctrl+Alt+X</Kbd> y se retrocede con <Kbd>Ctrl+Alt+Z</Kbd> (o clic / clic derecho). Es manual a propósito, y solo entra con la respuesta terminada.</p>
+        </>
+      ) : (
+        <>
+          <p>
+            Turned on in <em>dashboard → General → Teleprompter mode</em>, it changes how the finished answer reads:
+            <strong> one sentence per line</strong>, in a narrow column, with the active line always in the same spot.
+          </p>
+          <p>
+            Why: what gives away that you're reading isn't font size, it's the <strong>horizontal movement of your
+            eyes</strong>. A narrow column with the line fixed keeps your eyes almost still.
+          </p>
+          <p>Advance with <Kbd>Ctrl+Alt+X</Kbd> and go back with <Kbd>Ctrl+Alt+Z</Kbd> (or click / right-click). It's manual on purpose, and only kicks in with the answer finished.</p>
+        </>
+      ),
+  },
+
+  /* ============================================================ privacy & safety */
+  {
+    id: 'invisible-mode',
+    group: 'privacy',
+    title: { en: 'Invisible mode', es: 'Modo invisible' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            En Windows, el modo invisible llama a <code>SetWindowDisplayAffinity</code> con{' '}
+            <code>WDA_EXCLUDEFROMCAPTURE</code>. El compositor del sistema omite la ventana al construir el buffer de
+            captura, así que <strong>no aparece</strong> en:
+          </p>
+          <ul>
+            <li>Compartir pantalla de Meet, Teams, Zoom, Discord y similares.</li>
+            <li>Grabadores como OBS con «Display Capture».</li>
+            <li>La herramienta de recorte de Windows y las capturas de la propia app.</li>
+          </ul>
+          <p>Aplica al overlay <strong>y a la ventana de configuración</strong> (que tiene tus keys, tu CV y el historial).</p>
+          <Callout tone="warn">
+            <strong>No te protege de:</strong> una cámara apuntando a tu pantalla, software de proctoring que enumere
+            procesos, lo que digas en voz alta, o alguien mirando por encima de tu hombro.
+          </Callout>
+          <p>
+            Requiere Windows 10 2004+. En versiones anteriores degrada a <code>WDA_MONITOR</code> y la ventana sale como
+            un rectángulo negro. El proceso se llama <strong>Tayori</strong> en el Administrador de tareas; eso es
+            cosmético, lo que oculta la app es la exclusión de captura, no el nombre.
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            On Windows, invisible mode calls <code>SetWindowDisplayAffinity</code> with{' '}
+            <code>WDA_EXCLUDEFROMCAPTURE</code>. The system compositor skips the window when building the capture
+            buffer, so it <strong>doesn't appear</strong> in:
+          </p>
+          <ul>
+            <li>Screen sharing on Meet, Teams, Zoom, Discord and the like.</li>
+            <li>Recorders like OBS with "Display Capture".</li>
+            <li>The Windows Snipping Tool and the app's own screenshots.</li>
+          </ul>
+          <p>It applies to the overlay <strong>and the settings window</strong> (which has your keys, your CV and the history).</p>
+          <Callout tone="warn">
+            <strong>It does not protect you from:</strong> a camera pointed at your screen, proctoring software that
+            enumerates processes, what you say out loud, or someone looking over your shoulder.
+          </Callout>
+          <p>
+            It requires Windows 10 2004+. On older versions it degrades to <code>WDA_MONITOR</code> and the window comes
+            out as a black rectangle. The process is called <strong>Tayori</strong> in Task Manager; that's cosmetic —
+            what hides the app is the capture exclusion, not the name.
+          </p>
+        </>
+      ),
+  },
+  {
+    id: 'hidden-instructions',
+    group: 'privacy',
+    title: { en: 'Hidden instructions', es: 'Órdenes escondidas' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            La app le pasa al modelo cosas que no escribes tú: lo que dice la otra persona, lo que hay en una captura y
+            lo que pegas en <em>Contexto</em>. Cualquiera puede traer una frase dirigida al asistente
+            («ignora las instrucciones anteriores»).
+          </p>
+          <p>
+            Todo ese material viaja <strong>marcado como material</strong>, nunca como instrucciones, y el system prompt
+            dice explícitamente que lo de dentro se reporta y no se obedece. Si pasa, el asistente <strong>te lo dice</strong>{' '}
+            en una línea y sigue respondiendo a la pregunta real.
+          </p>
+          <Callout tone="info">
+            Esto <strong>reduce</strong> el riesgo, no lo elimina. La última palabra la tiene el modelo. Si una respuesta
+            se comporta raro justo tras aparecer un texto largo en pantalla, sospecha de eso.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            The app passes the model things you don't type: what the other person says, what's in a screenshot and what
+            you paste into <em>Context</em>. Any of those can carry a phrase aimed at the assistant ("ignore the
+            previous instructions").
+          </p>
+          <p>
+            All that material travels <strong>marked as material</strong>, never as instructions, and the system prompt
+            explicitly says what's inside is to be reported and not obeyed. If it happens, the assistant{' '}
+            <strong>tells you</strong> in one line and keeps answering the real question.
+          </p>
+          <Callout tone="info">
+            This <strong>reduces</strong> the risk, it doesn't eliminate it. The last word belongs to the model. If an
+            answer behaves oddly right after a long text shows up on screen, suspect that.
+          </Callout>
+        </>
+      ),
+  },
+  {
+    id: 'privacy-data',
+    group: 'privacy',
+    title: { en: 'Data & legal', es: 'Datos y aspectos legales' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            <strong>El audio nunca toca el disco.</strong> Los fragmentos van al motor de transcripción y se descartan
+            en el acto (la única excepción es el WAV temporal de whisper-cli, que se borra tras cada llamada). Solo se
+            guarda <strong>texto</strong>, y solo si dejas el historial encendido.
+          </p>
+          <ul>
+            <li><strong>Historial opt-in.</strong> Apagado, nada toca el disco. Puedes ver la ruta, borrar una conversación o todas.</li>
+            <li><strong>Keys cifradas con DPAPI</strong>, atadas a tu cuenta de Windows. El renderer solo ve un booleano.</li>
+            <li><strong>OpenAI</strong> guarda por defecto cada respuesta; la app lo desactiva con <code>store: false</code>.</li>
+          </ul>
+          <Callout tone="warn">
+            <strong>Aspectos legales.</strong> Con el historial encendido se guarda la transcripción, que en varias
+            jurisdicciones cuenta como una grabación. Muchas empresas restringen los asistentes de IA en sus procesos, y
+            las plataformas de evaluación técnica suelen prohibirlo. La responsabilidad de usar esto es tuya.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            <strong>Audio never touches the disk.</strong> Chunks go to the transcription engine and are discarded on
+            the spot (the only exception is whisper-cli's temporary WAV, deleted after each call). Only <strong>text</strong>{' '}
+            is saved, and only if you leave history on.
+          </p>
+          <ul>
+            <li><strong>History is opt-in.</strong> Off, nothing touches the disk. You can see the path, delete one conversation or all.</li>
+            <li><strong>Keys encrypted with DPAPI</strong>, tied to your Windows account. The renderer only sees a boolean.</li>
+            <li><strong>OpenAI</strong> stores each response by default; the app disables it with <code>store: false</code>.</li>
+          </ul>
+          <Callout tone="warn">
+            <strong>Legal.</strong> With history on, the transcript is stored, which in several jurisdictions counts as a
+            recording. Many companies restrict AI assistants in their processes, and technical-assessment platforms often
+            prohibit it. The responsibility for using this is yours.
+          </Callout>
+        </>
+      ),
+  },
+
+  /* ============================================================== integrations */
+  {
+    id: 'phone-mirror',
+    group: 'integrations',
+    title: { en: 'Phone mirror', es: 'Espejo en el móvil' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            Saca las respuestas de la pantalla compartida del todo: tu ordenador sirve una página al navegador de tu
+            teléfono, en tu propia red. Se enciende en <em>Ajustes → Espejo en el móvil</em>, escaneas el QR y listo. Es
+            de <strong>solo lectura</strong> y guarda las últimas 20 respuestas.
+          </p>
+          <DocTable
+            head={['', '']}
+            rows={[
+              [l === 'es' ? 'Qué se manda' : 'Sent', l === 'es' ? 'Las respuestas y si la escucha está activa' : 'The answers and whether listening is active'],
+              [l === 'es' ? 'Qué no se manda' : 'Not sent', l === 'es' ? 'La transcripción' : 'The transcript'],
+              [l === 'es' ? 'Por dónde' : 'Where', l === 'es' ? 'Tu red local, sin nube ni cuenta' : 'Your local network, no cloud or account'],
+            ]}
+          />
+          <p>Dos interruptores, ambos empiezan apagados: <strong>encender el espejo</strong> y <strong>permitir acceso desde la red local</strong> (un teléfono necesita este último).</p>
+          <Callout tone="warn">
+            El enlace lleva un token que cambia en cada arranque, pero <strong>mientras el espejo esté encendido, quien
+            tenga ese enlace y esté en tu red puede leer tus respuestas</strong>.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            It takes the answers off the shared screen entirely: your computer serves a page to your phone's browser, on
+            your own network. Turn it on in <em>Settings → Phone mirror</em>, scan the QR and that's it. It's{' '}
+            <strong>read-only</strong> and keeps the last 20 answers.
+          </p>
+          <DocTable
+            head={['', '']}
+            rows={[
+              ['Sent', 'The answers and whether listening is active'],
+              ['Not sent', 'The transcript'],
+              ['Where', 'Your local network, no cloud or account'],
+            ]}
+          />
+          <p>Two switches, both start off: <strong>turn on the mirror</strong> and <strong>allow access from the local network</strong> (a phone needs the latter).</p>
+          <Callout tone="warn">
+            The link carries a token that changes on every launch, but <strong>while the mirror is on, anyone with that
+            link and on your network can read your answers</strong>.
+          </Callout>
+        </>
+      ),
+  },
+  {
+    id: 'mqtt',
+    group: 'integrations',
+    title: { en: 'MQTT', es: 'MQTT' },
+    body: (l) => (
+      <>
+        <p>
+          {l === 'es'
+            ? 'Con esto encendido, cada respuesta terminada se publica en un broker MQTT para que la recoja otra cosa: un ESP32, un script, un Home Assistant. Se configura en Ajustes → MQTT.'
+            : 'With this on, each finished answer is published to an MQTT broker so something else can pick it up: an ESP32, a script, a Home Assistant. Configure it in Settings → MQTT.'}
+        </p>
+        <DocTable
+          head={[l === 'es' ? 'Tema' : 'Topic', l === 'es' ? 'Contenido' : 'Content']}
+          rows={[
+            [<code>&lt;topic&gt;</code>, l === 'es' ? 'JSON con id, trigger, question, answer, model, at' : 'JSON with id, trigger, question, answer, model, at'],
+            [<code>&lt;topic&gt;/text</code>, l === 'es' ? 'Solo el texto de la respuesta, en crudo' : 'Just the answer text, raw'],
+          ]}
+        />
+        <pre>
+          <code>{`// ESP32, con PubSubClient\nclient.subscribe("tayori/answer/text");\n// callback(topic, payload, length)`}</code>
+        </pre>
+        <ul>
+          <li>{l === 'es' ? 'Solo respuestas completas. Ni errores ni canceladas.' : 'Complete answers only. No errors or cancelled ones.'}</li>
+          <li>{l === 'es' ? 'QoS 1 y sin retener. La contraseña se cifra con DPAPI.' : 'QoS 1 and not retained. The password is encrypted with DPAPI.'}</li>
+        </ul>
+        <Callout tone="warn">
+          {l === 'es'
+            ? 'Esto saca tus respuestas de la app. Un broker sin usuario ni TLS es un tablón público — usa mqtts:// fuera de tu red.'
+            : 'This takes your answers out of the app. A broker with no user and no TLS is a public noticeboard — use mqtts:// outside your network.'}
+        </Callout>
+        <p>
+          {l === 'es' ? 'La librería compañera para ESP32 está en ' : 'The companion ESP32 library is at '}
+          <a href="https://github.com/cflarios/TayoriESP32" target="_blank" rel="noopener noreferrer">TayoriESP32</a>.
+        </p>
+      </>
+    ),
+  },
+
+  /* ================================================================= reference */
+  {
+    id: 'models',
+    group: 'reference',
+    title: { en: 'Models & latency', es: 'Modelos y latencia' },
+    body: (l) => (
+      <>
+        <p>{l === 'es' ? 'El compromiso entre latencia y privacidad, por motor de transcripción:' : 'The trade-off between latency and privacy, by transcription engine:'}</p>
+        <DocTable
+          head={[l === 'es' ? 'Motor' : 'Engine', l === 'es' ? 'Latencia' : 'Latency', l === 'es' ? 'Dónde va el audio' : 'Where the audio goes']}
+          rows={[
+            ['OpenAI live', '~300 ms', 'OpenAI'],
+            ['Gemini Live', '~300 ms', 'Google'],
+            [l === 'es' ? 'Gemini audio directo' : 'Gemini direct audio', '~1–2 s', 'Google'],
+            ['Whisper local', '~0.8–1.5 s', l === 'es' ? 'A ningún sitio' : 'Nowhere'],
+          ]}
+        />
+        <p>
+          {l === 'es'
+            ? 'El dashboard mide tu RAM, CPU y GPU y recomienda dos modelos locales (conversar y pantalla) con el comando ollama pull listo. El botón «Abrir la guía» genera un documento con todos los modelos por tramo de memoria, los multimodales aparte y los de pago por precio.'
+            : 'The dashboard measures your RAM, CPU and GPU and recommends two local models (converse and screen) with the ollama pull command ready. "Open the guide" generates a document with all models by memory tier, the multimodal ones separately, and the paid ones by price.'}
+        </p>
+        <Callout tone="warn">
+          {l === 'es' ? (
+            <>
+              <strong>Ollama recorta el contexto sin avisar</strong> (2048 tokens por defecto), y el síntoma es que el
+              modelo olvida lo que le acabas de decir. Súbelo en <em>dashboard → Transcripción → Ventana de contexto</em>;
+              la app pide 8192.
+            </>
+          ) : (
+            <>
+              <strong>Ollama trims the context without warning</strong> (2048 tokens by default), and the symptom is the
+              model forgetting what you just told it. Raise it in <em>dashboard → Transcription → Context window</em>;
+              the app asks for 8192.
+            </>
+          )}
+        </Callout>
+      </>
+    ),
+  },
+  {
+    id: 'language-updates',
+    group: 'reference',
+    title: { en: 'Language & updates', es: 'Idioma y actualizaciones' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            La interfaz está en <strong>inglés y español</strong>. Arranca en inglés salvo que sea el primer arranque y
+            tu Windows esté en español; se cambia en <em>dashboard → General → Idioma</em>. No tiene nada que ver con el
+            idioma en el que hablas en la reunión, que se elige en <em>Transcripción</em>.
+          </p>
+          <p>
+            <em>Dashboard → Acerca de</em> resume qué es la app y qué versión tienes, con un botón{' '}
+            <strong>Buscar actualizaciones</strong> que pregunta a GitHub si hay una versión más nueva y, si la hay,
+            muestra los cambios y un botón para descargar el nuevo portable. Nada se descarga ni instala solo.
+          </p>
+          <p>
+            Cuatro documentos en el repo: README, <a href={`${GH}/blob/main/USAGE.md`} target="_blank" rel="noopener noreferrer">USAGE</a>,{' '}
+            <a href={`${GH}/blob/main/ARCHITECTURE.md`} target="_blank" rel="noopener noreferrer">ARCHITECTURE</a> y CONTEXT.
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            The interface is in <strong>English and Spanish</strong>. It starts in English unless it's the first launch
+            and your Windows is in Spanish; it's changed in <em>dashboard → General → Language</em>. It has nothing to do
+            with the language you speak in the meeting, which is chosen in <em>Transcription</em>.
+          </p>
+          <p>
+            <em>Dashboard → About</em> sums up what the app is and which version you have, with a{' '}
+            <strong>Check for updates</strong> button that asks GitHub whether there's a newer version and, if so, shows
+            the changes and a button to download the new portable. Nothing downloads or installs on its own.
+          </p>
+          <p>
+            Four documents in the repo: README, <a href={`${GH}/blob/main/USAGE.md`} target="_blank" rel="noopener noreferrer">USAGE</a>,{' '}
+            <a href={`${GH}/blob/main/ARCHITECTURE.md`} target="_blank" rel="noopener noreferrer">ARCHITECTURE</a> and CONTEXT.
+          </p>
+        </>
+      ),
+  },
+]

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useI18n, type Lang } from '../i18n'
 import { Icon } from '../icons'
 import { Mascot } from './Mascot'
+import { Link, useRoute } from '../router'
 
 const GITHUB = 'https://github.com/cflarios/Tayori'
 
@@ -28,6 +29,7 @@ function LangToggle() {
 
 export function Nav() {
   const { t } = useI18n()
+  const { path } = useRoute()
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -37,11 +39,12 @@ export function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const onDocs = path.startsWith('/docs')
   const links = [
-    { t: t.nav.features, href: '#features' },
-    { t: t.nav.how, href: '#how' },
-    { t: t.nav.privacy, href: '#privacy' },
-    { t: t.nav.faq, href: '#faq' },
+    { t: t.nav.features, to: '/#features' },
+    { t: t.nav.how, to: '/#how' },
+    { t: t.nav.privacy, to: '/#privacy' },
+    { t: t.nav.docs, to: '/docs', active: onDocs },
   ]
 
   return (
@@ -53,17 +56,21 @@ export function Nav() {
       }`}
     >
       <nav className="mx-auto max-w-6xl px-5 h-16 flex items-center justify-between gap-4">
-        <a href="#top" className="flex items-center gap-2 font-bold tracking-tight" title="頼りになった · your reliable one">
+        <Link to="/" className="flex items-center gap-2 font-bold tracking-tight" title="頼りになった · your reliable one">
           <Mascot className="h-8 w-8 shrink-0" />
           <span className="text-[17px]">Tayori</span>
           <span className="hidden sm:inline text-sm font-medium text-[var(--color-mute-2)]">頼り</span>
-        </a>
+        </Link>
 
         <div className="hidden md:flex items-center gap-7 text-sm text-[var(--color-mute)]">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="hover:text-white transition-colors">
+            <Link
+              key={l.to}
+              to={l.to}
+              className={`transition-colors hover:text-white ${l.active ? 'text-white' : ''}`}
+            >
               {l.t}
-            </a>
+            </Link>
           ))}
         </div>
 
