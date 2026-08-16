@@ -120,8 +120,8 @@ export const DOCS: DocSection[] = [
               solo con un atajo.
             </li>
             <li>
-              <strong>Resuelve la pantalla</strong>: código (<Kbd>Ctrl+Alt+C</Kbd>) o tests (<Kbd>Ctrl+Alt+Q</Kbd>) con
-              un modelo con visión.
+              <strong>Resuelve la pantalla</strong> con un modelo con visión: código (<Kbd>Ctrl+Alt+C</Kbd>), un test
+              (<Kbd>Ctrl+Alt+Q</Kbd>) o cualquier otra cosa que haya en pantalla.
             </li>
             <li>
               <strong>Funciona 100% offline</strong> con Whisper local + Ollama.
@@ -159,8 +159,8 @@ export const DOCS: DocSection[] = [
               and can answer automatically or only on a hotkey.
             </li>
             <li>
-              <strong>Screen actions</strong>: solve code (<Kbd>Ctrl+Alt+C</Kbd>) or a quiz (<Kbd>Ctrl+Alt+Q</Kbd>)
-              with a vision-capable model.
+              <strong>Solve screen</strong> with a vision-capable model: code (<Kbd>Ctrl+Alt+C</Kbd>), a quiz
+              (<Kbd>Ctrl+Alt+Q</Kbd>), or anything else on your screen.
             </li>
             <li>
               <strong>Fully offline</strong> when paired with Whisper local + Ollama.
@@ -346,11 +346,12 @@ export const DOCS: DocSection[] = [
         <>
           <p>Todo lo que se usa a mitad de una llamada está en la barra superior, sin abrir la configuración:</p>
           <ul>
-            <li><strong>Escuchar / Escuchando</strong> — empieza y para la escucha. Si algo falla, pasa a «Reintentar».</li>
-            <li><strong>Yo / Ellos</strong> — qué fuentes se escuchan. Un chip <strong>ámbar</strong> significa que esa fuente está configurada pero no llegó a abrirse.</li>
-            <li><strong>Código</strong> y <strong>Test</strong> — resuelven lo que haya en la pantalla.</li>
+            <li><strong>Escuchar / Escuchando</strong> — empieza y para la escucha. El pequeño desplegable de al lado abre qué <strong>fuentes</strong> se escuchan (tu micro, la salida del sistema o ambas). Si una fuente está configurada pero no llegó a abrirse, el control se pone <strong>ámbar</strong>.</li>
+            <li><strong>Ojo (visibilidad)</strong> — activa o desactiva la exclusión de captura. Se pone <strong>rojo</strong> cuando el overlay es <em>visible</em> (el estado peligroso) y el panel gana un borde rojo punteado para que no compartas pantalla sin darte cuenta.</li>
+            <li><strong>Resolver la pantalla</strong> — un botón con menú: <strong>Código</strong>, <strong>Test</strong> o <strong>Cualquier otra cosa</strong> (ayuda general con lo que haya en pantalla).</li>
             <li><Kbd>⋯</Kbd> — plegar, configuración, nueva conversación y salir.</li>
-            <li><strong>Perfiles</strong> — la fila de abajo; cambian el registro de la respuesta.</li>
+            <li><strong>Perfil y modelo</strong> — la fila de abajo: el perfil elige la forma de la respuesta y el desplegable de al lado el modelo de respuesta.</li>
+            <li><strong>Pestañas Escuchar / Escribir</strong> — <strong>Escuchar</strong> sigue la llamada; <strong>Escribir</strong> es un chat donde tecleas una pregunta (<code>/skill</code> para invocar una) y los intercambios se apilan como un hilo, como una app de mensajería.</li>
             <li><Kbd>‹ 2/5 ›</Kbd> — vuelve a respuestas anteriores sin abrir el historial.</li>
           </ul>
           <p>Muévelo arrastrando la barra o con <Kbd>Ctrl+Alt+flechas</Kbd>. Ocúltalo con <Kbd>Ctrl+Shift+H</Kbd>.</p>
@@ -359,11 +360,12 @@ export const DOCS: DocSection[] = [
         <>
           <p>Everything you use mid-call is in the top bar, without opening the settings:</p>
           <ul>
-            <li><strong>Listen / Listening</strong> — starts and stops listening. If something fails, it turns to "Retry".</li>
-            <li><strong>You / Them</strong> — which sources are heard. An <strong>amber</strong> chip means that source is configured but didn't manage to open.</li>
-            <li><strong>Code</strong> and <strong>Quiz</strong> — solve whatever's on the screen.</li>
+            <li><strong>Listen / Listening</strong> — starts and stops listening. The little caret next to it opens which <strong>sources</strong> are heard (your mic, the system output, or both). If a source is configured but didn't manage to open, the control turns <strong>amber</strong>.</li>
+            <li><strong>Eye (visibility)</strong> — toggles whether the overlay is excluded from capture. It turns <strong>red</strong> when the overlay is <em>visible</em> (the risky state) and the panel gains a dashed red frame so you can't share your screen without noticing.</li>
+            <li><strong>Solve screen</strong> — one button with a menu: <strong>Code</strong>, <strong>Quiz</strong>, or <strong>Anything else</strong> (general help with whatever's on screen).</li>
             <li><Kbd>⋯</Kbd> — collapse, settings, new conversation and quit.</li>
-            <li><strong>Profiles</strong> — the bottom row; they change the register of the answer.</li>
+            <li><strong>Profile and model</strong> — the row below: the profile picks the shape of the answer and the dropdown next to it the answer model.</li>
+            <li><strong>Listen / Write tabs</strong> — <strong>Listen</strong> follows the call; <strong>Write</strong> is a small chat where you type a question (<code>/skill</code> to invoke one) and the exchanges stack as a scrollable thread, like a messaging app.</li>
             <li><Kbd>‹ 2/5 ›</Kbd> — go back to earlier answers without opening the history.</li>
           </ul>
           <p>Move it by dragging the bar or with <Kbd>Ctrl+Alt+arrows</Kbd>. Hide it with <Kbd>Ctrl+Shift+H</Kbd>.</p>
@@ -404,26 +406,33 @@ export const DOCS: DocSection[] = [
   {
     id: 'screen-actions',
     group: 'use',
-    title: { en: 'Code & quiz on screen', es: 'Código y test en pantalla' },
+    title: { en: 'Solve screen', es: 'Resolver la pantalla' },
     body: (l) =>
       l === 'es' ? (
         <>
           <p>
-            <Kbd>Ctrl+Alt+C</Kbd> resuelve <strong>código</strong> y <Kbd>Ctrl+Alt+Q</Kbd> responde <strong>tests</strong>.
-            Comparten captura de alta calidad, perfil propio y modelo con visión, y se separan solo en cómo responden.
+            El botón <strong>Resolver la pantalla</strong> captura tu pantalla y te ayuda con lo que haya en ella. Su
+            menú tiene tres casos, que comparten captura de alta calidad, perfil propio y modelo con visión:
           </p>
-          <h3>Modo código</h3>
+          <h3>Código</h3>
           <p>
-            Devuelve el enfoque con su complejidad en una línea, el código completo en un bloque con botón{' '}
-            <strong>Copiar</strong>, y como mucho tres apuntes. Si se corta, aparece <strong>Continuar</strong>, que
-            sigue desde donde se quedó pegándose a la misma respuesta.
+            <Kbd>Ctrl+Alt+C</Kbd> — resuelve el ejercicio, el test en rojo o el stack trace que se vea: el código
+            completo, listo para pegar, con botón <strong>Copiar</strong>. Si se corta, aparece <strong>Continuar</strong>{' '}
+            y sigue desde donde se quedó, pegándose a la misma respuesta.
           </p>
-          <h3>Modo test</h3>
-          <p>Responde todas las preguntas que se vean, una línea por pregunta. Dos marcas:</p>
+          <h3>Test</h3>
+          <p>
+            <Kbd>Ctrl+Alt+Q</Kbd> — responde todas las preguntas que se vean, una línea por pregunta. Dos marcas:
+          </p>
           <ul>
             <li><code>DUDA:</code> — el modelo no está seguro y da igualmente su mejor opción.</li>
             <li><code>NO SE VE:</code> — no se leían todas las opciones; repite con la pregunta entera a la vista.</li>
           </ul>
+          <h3>Cualquier otra cosa</h3>
+          <p>
+            Ayuda general con lo demás — un error de configuración, unos logs, un diagrama o dibujo que explicar, pasar
+            de un estado a otro. Este caso <strong>no tiene atajo</strong>: se llega desde el menú del botón.
+          </p>
           <h3>Con qué modelo</h3>
           <Callout tone="warn">
             <strong>Necesita un modelo con visión</strong> (Claude, Gemini, OpenAI u Ollama multimodal). Puedes usar uno
@@ -433,22 +442,29 @@ export const DOCS: DocSection[] = [
       ) : (
         <>
           <p>
-            <Kbd>Ctrl+Alt+C</Kbd> solves <strong>code</strong> and <Kbd>Ctrl+Alt+Q</Kbd> answers <strong>quizzes</strong>.
-            They share high-quality capture, their own profile and a vision-capable model, and split only in how they
-            answer.
+            The <strong>Solve screen</strong> button captures your screen and helps with what's on it. Its menu has
+            three cases, which share high-quality capture, their own profile and a vision-capable model:
           </p>
-          <h3>Code mode</h3>
+          <h3>Code</h3>
           <p>
-            Returns the approach with its complexity in one line, the complete code in a block with a{' '}
-            <strong>Copy</strong> button, and at most three notes. If it gets cut off, a <strong>Continue</strong> button
-            picks up where it left off, glued to the same answer.
+            <Kbd>Ctrl+Alt+C</Kbd> — solves the exercise, failing test or stack trace in view: the complete code, ready
+            to paste, with a <strong>Copy</strong> button. If it gets cut off, a <strong>Continue</strong> button picks
+            up where it left off, glued to the same answer.
           </p>
-          <h3>Quiz mode</h3>
-          <p>Answers every question on screen, one line per question. Two marks:</p>
+          <h3>Quiz</h3>
+          <p>
+            <Kbd>Ctrl+Alt+Q</Kbd> — answers every question on screen, one line per question. Two marks:
+          </p>
           <ul>
             <li><code>DOUBT:</code> — the model isn't sure and gives its best option anyway.</li>
             <li><code>NOT VISIBLE:</code> — not all options were readable; repeat with the whole question in view.</li>
           </ul>
+          <h3>Anything else</h3>
+          <p>
+            General help with whatever else is there — a config error, some logs, a diagram or drawing to explain,
+            getting from one state to another. This one has <strong>no hotkey</strong>; it's reached from the button's
+            menu.
+          </p>
           <h3>Which model</h3>
           <Callout tone="warn">
             <strong>It needs a vision-capable model</strong> (Claude, Gemini, OpenAI or multimodal Ollama). You can use a
@@ -517,6 +533,11 @@ export const DOCS: DocSection[] = [
             [<strong>Skill</strong>, l === 'es' ? 'La manera de escribir' : 'The way of writing', l === 'es' ? 'Qué palabras evitar, qué tono' : 'Which words to avoid, what tone'],
           ]}
         />
+        <Callout tone="info">
+          {l === 'es'
+            ? 'Los perfiles son tuyos para moldear (dashboard → Comportamiento): renombra o reescribe cualquiera de serie, oculta los que no uses, crea los tuyos desde cero y borra o restaura cualquiera. El intérprete es el único modo fijo, fuera de esa lista.'
+            : 'The profiles are yours to shape (dashboard → Behavior): rename or rewrite any built-in, hide the ones you don’t use, create your own from scratch, and delete or restore any of them. The interpreter is the one fixed mode, kept out of that list.'}
+        </Callout>
         <h3>{l === 'es' ? 'Escribir una' : 'Writing one'}</h3>
         <p>
           {l === 'es'
@@ -540,8 +561,10 @@ export const DOCS: DocSection[] = [
       l === 'es' ? (
         <>
           <p>
-            Un perfil que, en vez de sugerir respuestas, <strong>traduce</strong>. Se elige en{' '}
-            <em>dashboard → Comportamiento → Perfil → Intérprete</em> y ahí mismo se fijan los dos idiomas.
+            Un <strong>modo</strong> que, en vez de sugerir respuestas, <strong>traduce</strong>. Se elige en el
+            desplegable de Perfil (en el overlay o en <em>dashboard → Comportamiento</em>) — es un modo aparte, no uno de
+            los perfiles editables — y los <strong>dos idiomas</strong> se fijan en{' '}
+            <em>dashboard → Comportamiento → Idiomas del intérprete</em>, que siguen configurables esté o no activo.
           </p>
           <p>
             Con él activo, cada intervención se traduce <strong>al otro idioma, en los dos sentidos</strong>. Necesita la
@@ -555,8 +578,10 @@ export const DOCS: DocSection[] = [
       ) : (
         <>
           <p>
-            A profile that, instead of suggesting answers, <strong>translates</strong>. Pick it in{' '}
-            <em>dashboard → Behavior → Profile → Interpreter</em> and set the two languages right there.
+            A <strong>mode</strong> that, instead of suggesting answers, <strong>translates</strong>. Pick it from the
+            Profile dropdown (in the overlay or in <em>dashboard → Behavior</em>) — it's a mode of its own, not one of
+            the editable profiles — and set the <strong>two languages</strong> in{' '}
+            <em>dashboard → Behavior → Interpreter languages</em>, which stay configurable whether or not it's active.
           </p>
           <p>
             With it on, each turn is translated <strong>to the other language, in both directions</strong>. It needs
@@ -626,6 +651,15 @@ export const DOCS: DocSection[] = [
             <strong>No te protege de:</strong> una cámara apuntando a tu pantalla, software de proctoring que enumere
             procesos, lo que digas en voz alta, o alguien mirando por encima de tu hombro.
           </Callout>
+          <h3>El señuelo de la barra de tareas</h3>
+          <p>
+            Por defecto ni el overlay ni la configuración aparecen en la <strong>barra de tareas</strong>. Si prefieres
+            esconderte <em>a la vista</em> en vez de estar ausente, <em>dashboard → General</em> ofrece un{' '}
+            <strong>señuelo</strong>: el overlay mantiene una entrada en la barra <strong>disfrazada de herramienta de
+            Windows</strong> (Terminal, Configuración o Administrador de tareas), con su icono y título. Sigue excluido de
+            la captura, así que el disfraz es solo para quien mire tu barra de reojo. El modo stealth conserva la entrada
+            disfrazada; solo con el señuelo apagado desaparece del todo.
+          </p>
           <h3>En el Administrador de tareas</h3>
           <p>
             Requiere Windows 10 2004+. En versiones anteriores degrada a <code>WDA_MONITOR</code> y la ventana sale como
@@ -651,6 +685,15 @@ export const DOCS: DocSection[] = [
             <strong>It does not protect you from:</strong> a camera pointed at your screen, proctoring software that
             enumerates processes, what you say out loud, or someone looking over your shoulder.
           </Callout>
+          <h3>A decoy taskbar entry</h3>
+          <p>
+            By default neither the overlay nor the settings appears in the <strong>taskbar</strong>. If you'd rather hide{' '}
+            <em>in plain sight</em> than be absent, <em>dashboard → General</em> offers a <strong>decoy</strong>: the
+            overlay keeps a taskbar entry <strong>disguised as a Windows tool</strong> (Terminal, Settings or Task
+            Manager), with the matching icon and title. It stays excluded from screen capture, so the disguise is only for
+            someone glancing at your taskbar. Stealth mode keeps the disguised entry; only with the decoy off does the
+            overlay vanish from the taskbar entirely.
+          </p>
           <h3>In Task Manager</h3>
           <p>
             It requires Windows 10 2004+. On older versions it degrades to <code>WDA_MONITOR</code> and the window comes
@@ -888,6 +931,13 @@ export const DOCS: DocSection[] = [
             idioma en el que hablas en la reunión, que se elige en <em>Transcripción</em>.
           </p>
           <p>
+            <strong>El idioma de la respuesta también se puede fijar.</strong> Por defecto el modelo responde en el
+            idioma de la conversación (o, en una acción de pantalla, el de lo que se ve). Si prefieres fijarlo — siempre
+            en inglés, por ejemplo, aunque la pantalla esté en otro idioma — ponlo en{' '}
+            <em>dashboard → Modelo de respuesta → Idioma de respuesta</em>. Déjalo en <strong>Automático</strong> para el
+            comportamiento por defecto.
+          </p>
+          <p>
             <em>Dashboard → Acerca de</em> resume qué es la app y qué versión tienes, con un botón{' '}
             <strong>Buscar actualizaciones</strong> que pregunta a GitHub si hay una versión más nueva y, si la hay,
             muestra los cambios y un botón para descargar el nuevo portable. Nada se descarga ni instala solo.
@@ -903,6 +953,13 @@ export const DOCS: DocSection[] = [
             The interface is in <strong>English and Spanish</strong>. It starts in English unless it's the first launch
             and your Windows is in Spanish; it's changed in <em>dashboard → General → Language</em>. It has nothing to do
             with the language you speak in the meeting, which is chosen in <em>Transcription</em>.
+          </p>
+          <p>
+            <strong>The answer language can also be pinned.</strong> By default the model answers in the conversation's
+            language (or, for a screen action, the language of what's on the screen). To fix it — always in English, say,
+            even when the screen is in another language — set it in{' '}
+            <em>dashboard → Answering model → Answer language</em>. Leave it on <strong>Automatic</strong> for the default
+            behaviour.
           </p>
           <p>
             <em>Dashboard → About</em> sums up what the app is and which version you have, with a{' '}
