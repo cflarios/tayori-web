@@ -1,7 +1,10 @@
+import { useEffect, useState } from 'react'
 import { useI18n } from '../i18n'
 import { Icon } from '../icons'
 import { Mascot } from './Mascot'
 import { Reveal } from './Reveal'
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 /** A participant video tile in the mock call. */
 function Tile({ name, initial, active }: { name: string; initial: string; active?: boolean }) {
@@ -24,7 +27,8 @@ function Tile({ name, initial, active }: { name: string; initial: string; active
   )
 }
 
-/** The Tayori overlay, floating over the call — shown only on "your screen". */
+/** The Tayori overlay, floating over the call — shown only on "your screen".
+ *  It plays a looping listen → transcribe → answer sequence to feel alive. */
 function FloatingOverlay() {
   const { lang, t } = useI18n()
   const copy =
@@ -32,15 +36,64 @@ function FloatingOverlay() {
       ? {
           listening: 'Escuchando',
           them: 'Alex',
-          transcript: '“Háblame de un proyecto que hayas liderado.”',
+          thinking: 'Pensando…',
+          transcript: 'Háblame de un proyecto que hayas liderado.',
           bullets: ['Migración de facturación a uso — lideré el alcance…', 'Despliegue en tres fases, sin caídas.'],
         }
       : {
           listening: 'Listening',
           them: 'Alex',
-          transcript: '“Tell me about a project you led end to end.”',
+          thinking: 'Thinking…',
+          transcript: 'Tell me about a project you led end to end.',
           bullets: ['Billing migration to usage-based — I owned scoping…', 'Three-phase rollout, zero downtime.'],
         }
+
+  const [chars, setChars] = useState(0)
+  const [phase, setPhase] = useState<'idle' | 'thinking' | 'answer'>('idle')
+  const [shown, setShown] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setChars(copy.transcript.length)
+      setPhase('answer')
+      setShown(copy.bullets.length)
+      return
+    }
+    let cancelled = false
+    async function run() {
+      while (!cancelled) {
+        setChars(0)
+        setPhase('idle')
+        setShown(0)
+        await sleep(700)
+        for (let i = 1; i <= copy.transcript.length; i++) {
+          if (cancelled) return
+          setChars(i)
+          await sleep(32)
+        }
+        await sleep(500)
+        if (cancelled) return
+        setPhase('thinking')
+        await sleep(950)
+        if (cancelled) return
+        setPhase('answer')
+        for (let i = 1; i <= copy.bullets.length; i++) {
+          if (cancelled) return
+          setShown(i)
+          await sleep(650)
+        }
+        await sleep(2800)
+      }
+    }
+    run()
+    return () => {
+      cancelled = true
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lang])
+
+  const typed = copy.transcript.slice(0, chars)
+  const typing = phase === 'idle' && chars < copy.transcript.length
 
   return (
     <div className="absolute left-1/2 top-11 z-10 w-[88%] max-w-[300px] -translate-x-1/2">
@@ -56,19 +109,45 @@ function FloatingOverlay() {
           </span>
           <span className="text-[9px] text-[var(--color-mute-2)]">⋯</span>
         </div>
-        <p className="text-[11px] leading-snug text-[var(--color-mute)]">
+
+        <p className="min-h-[2.1rem] text-[11px] leading-snug text-[var(--color-mute)]">
           <span className="mr-1 rounded bg-cyan-400/15 px-1 text-[9px] font-semibold text-cyan-300">{copy.them}</span>
-          {copy.transcript}
+          “{typed}
+          {typing && <span className="ml-px inline-block h-[0.85em] w-px -mb-0.5 animate-pulse bg-cyan-300" />}
+          {!typing && '”'}
         </p>
-        <div className="mt-2 mb-1 text-[9px] font-semibold uppercase tracking-wider grad-text">✦ {t.vanish.overlayHint}</div>
-        <ul className="space-y-1">
-          {copy.bullets.map((b) => (
-            <li key={b} className="flex gap-1.5 text-[10.5px] leading-snug text-[#e6e5f2]">
-              <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-violet-400" />
-              {b}
-            </li>
-          ))}
-        </ul>
+
+        <div className="min-h-[3.4rem]">
+          {phase === 'thinking' ? (
+            <div className="flex items-center gap-1.5 pt-1 text-[11px] text-[var(--color-mute)]">
+              {copy.thinking}
+              <span className="flex gap-0.5">
+                <span className="h-1 w-1 animate-bounce rounded-full bg-violet-400 [animation-delay:-0.2s]" />
+                <span className="h-1 w-1 animate-bounce rounded-full bg-violet-400 [animation-delay:-0.1s]" />
+                <span className="h-1 w-1 animate-bounce rounded-full bg-violet-400" />
+              </span>
+            </div>
+          ) : (
+            phase === 'answer' && (
+              <>
+                <div className="mt-2 mb-1 text-[9px] font-semibold uppercase tracking-wider grad-text">
+                  ✦ {t.vanish.overlayHint}
+                </div>
+                <ul className="space-y-1">
+                  {copy.bullets.slice(0, shown).map((b) => (
+                    <li
+                      key={b}
+                      className="flex gap-1.5 text-[10.5px] leading-snug text-[#e6e5f2] motion-safe:animate-[fadeUp_.35s_ease]"
+                    >
+                      <span className="mt-1 h-1 w-1 shrink-0 rounded-full bg-violet-400" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )
+          )}
+        </div>
       </div>
     </div>
   )
