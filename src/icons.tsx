@@ -99,6 +99,12 @@ export const Icon = {
       <path d="M21 21l-4.3-4.3" />
     </svg>
   ),
+  screen: (p: P) => (
+    <svg {...base(p)}>
+      <rect x="3" y="4" width="18" height="13" rx="2" />
+      <path d="M8 21h8M12 17v4" />
+    </svg>
+  ),
   check: (p: P) => (
     <svg {...base(p)}>
       <path d="M4 12l5 5L20 6" />
