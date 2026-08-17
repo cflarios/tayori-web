@@ -357,7 +357,7 @@ export const DOCS: DocSection[] = [
             <li><strong>Resolver la pantalla</strong> — un botón con menú: <strong>Código</strong>, <strong>Test</strong> o <strong>Cualquier otra cosa</strong> (ayuda general con lo que haya en pantalla).</li>
             <li><Kbd>⋯</Kbd> — plegar el panel, configuración y salir.</li>
             <li><strong>Perfil y modelo</strong> — la fila de abajo: el perfil elige la forma de la respuesta y el desplegable de al lado el modelo de respuesta.</li>
-            <li><strong>Pestañas Escuchar / Escribir</strong> — <strong>Escuchar</strong> sigue la llamada; <strong>Escribir</strong> es un chat donde tecleas una pregunta (<code>/skill</code> para invocar una, <Kbd>Tab</Kbd> para completarla) y los intercambios se apilan como un hilo. El <strong>+</strong> junto al campo adjunta una imagen (una captura nueva o una de tu PC), cada respuesta tiene botón de <strong>copiar</strong> (y de <strong>reproducir</strong> con las respuestas habladas activas), y un botón de <strong>nueva conversación</strong> a la derecha de la fila de pestañas borra la transcripción y la memoria.</li>
+            <li><strong>Pestañas Escuchar / Escribir</strong> — <strong>Escuchar</strong> sigue la llamada; <strong>Escribir</strong> es un chat donde tecleas una pregunta (<code>/skill</code> para invocar una, <Kbd>Tab</Kbd> para completarla) y los intercambios se apilan como un hilo. El <strong>+</strong> junto al campo adjunta una imagen (una captura nueva o una de tu PC), cada respuesta tiene botón de <strong>copiar</strong> (y de <strong>reproducir</strong> con las respuestas habladas activas), un botón de <strong>nueva conversación</strong> a la derecha de la fila de pestañas borra la transcripción y la memoria, y cada turno lleva etiquetado quién lo envió — tú, el entrevistador o Tayori.</li>
             <li><Kbd>‹ 2/5 ›</Kbd> — vuelve a respuestas anteriores sin abrir el historial.</li>
           </ul>
           <p>Muévelo arrastrando el <strong>grip</strong> — los seis puntos a la izquierda de la barra — o con <Kbd>Ctrl+Alt+flechas</Kbd>; solo el grip mueve la ventana, así el resto de la barra sigue clicable. Ocúltalo con <Kbd>Ctrl+Shift+H</Kbd>.</p>
@@ -371,7 +371,7 @@ export const DOCS: DocSection[] = [
             <li><strong>Solve screen</strong> — one button with a menu: <strong>Code</strong>, <strong>Quiz</strong>, or <strong>Anything else</strong> (general help with whatever's on screen).</li>
             <li><Kbd>⋯</Kbd> — collapse the panel, settings and quit.</li>
             <li><strong>Profile and model</strong> — the row below: the profile picks the shape of the answer and the dropdown next to it the answer model.</li>
-            <li><strong>Listen / Write tabs</strong> — <strong>Listen</strong> follows the call; <strong>Write</strong> is a small chat where you type a question (<code>/skill</code> to invoke one, <Kbd>Tab</Kbd> to complete it) and the exchanges stack as a thread. The <strong>+</strong> by the input attaches an image (a fresh screenshot or one from your PC), each answer has a <strong>copy</strong> button (and a <strong>speak</strong> one when spoken answers are on), and a <strong>new conversation</strong> button at the right of the tab row wipes the transcript and memory.</li>
+            <li><strong>Listen / Write tabs</strong> — <strong>Listen</strong> follows the call; <strong>Write</strong> is a small chat where you type a question (<code>/skill</code> to invoke one, <Kbd>Tab</Kbd> to complete it) and the exchanges stack as a thread. The <strong>+</strong> by the input attaches an image (a fresh screenshot or one from your PC), each answer has a <strong>copy</strong> button (and a <strong>speak</strong> one when spoken answers are on), a <strong>new conversation</strong> button at the right of the tab row wipes the transcript and memory, and each turn is labelled by who sent it — you, the interviewer or Tayori.</li>
             <li><Kbd>‹ 2/5 ›</Kbd> — go back to earlier answers without opening the history.</li>
           </ul>
           <p>Move it by dragging the <strong>grip</strong> — the six dots at the left of the bar — or with <Kbd>Ctrl+Alt+arrows</Kbd>; only the grip moves the window, so the rest of the bar stays clickable. Hide it with <Kbd>Ctrl+Shift+H</Kbd>.</p>
@@ -1024,6 +1024,26 @@ export const DOCS: DocSection[] = [
             </>
           )}
         </Callout>
+        <h3>{l === 'es' ? 'La memoria de la conversación' : 'Conversation memory'}</h3>
+        {l === 'es' ? (
+          <p>
+            El overlay muestra un chip de memoria en la cabecera de la respuesta con los intercambios que el asistente
+            reenvía en cada consulta. En un modelo <strong>local (Ollama)</strong> los cuenta — <code>memory n/8</code>,
+            y se pone rojo al llenarse — porque esos turnos aprietan contra su ventana pequeña. En uno de{' '}
+            <strong>nube</strong> hay sitio de sobra: el tope sube a 40 y el chip pierde el contador (queda en el
+            tooltip), quedando como un simple botón de <em>olvidar</em>. Pulsarlo hace que el asistente los olvide, y{' '}
+            <strong>no</strong> es lo mismo que «nueva conversación»: la transcripción y el historial se quedan igual.
+          </p>
+        ) : (
+          <p>
+            The overlay shows a memory chip in the answer header for the exchanges the assistant resends on each query.
+            On a <strong>local model (Ollama)</strong> it counts them — <code>memory n/8</code>, turning red when full —
+            because those turns press against its small context window. On a <strong>cloud model</strong> there's room
+            to spare: the cap rises to 40 and the chip drops the counter (it stays in the tooltip), reading as a plain{' '}
+            <em>forget</em> button. Clicking it makes the assistant forget them, and it's <strong>not</strong> the same
+            as "new conversation": the transcript and history stay as they are.
+          </p>
+        )}
       </>
     ),
   },
