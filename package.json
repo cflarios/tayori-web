@@ -2,7 +2,7 @@
   "name": "tayori-web",
   "version": "1.0.0",
   "description": "Landing page for Tayori — real-time AI assistant for meetings and interviews",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "author": "Cristian Larios",
   "type": "module",
   "private": true,
