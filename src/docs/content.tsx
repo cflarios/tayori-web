@@ -101,7 +101,7 @@ export const DOCS: DocSection[] = [
             <strong>permanece invisible cuando compartes pantalla</strong>.
           </p>
           <p>
-            Es open source (MIT), sin monetización. Todo corre en tu máquina y las llamadas van directas al proveedor
+            Es open source (GPL-3.0), sin monetización. Todo corre en tu máquina y las llamadas van directas al proveedor
             de IA que elijas — <strong>no hay servidor intermedio</strong>.
           </p>
           <ul>
@@ -142,7 +142,7 @@ export const DOCS: DocSection[] = [
             <strong>stays invisible when you share your screen</strong>.
           </p>
           <p>
-            It's open source (MIT), with no monetization. Everything runs on your machine and calls go straight to the
+            It's open source (GPL-3.0), with no monetization. Everything runs on your machine and calls go straight to the
             AI provider you pick — <strong>there is no server in between</strong>.
           </p>
           <ul>

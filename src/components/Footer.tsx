@@ -41,7 +41,7 @@ export function Footer() {
               >
                 @cflarios
               </a>{' '}
-              · MIT
+              · GPL-3.0
             </p>
           </div>
 

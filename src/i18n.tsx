@@ -7,7 +7,7 @@ export const dict = {
   en: {
     nav: { features: 'Features', privacy: 'Privacy', how: 'How it works', faq: 'FAQ', docs: 'Docs', download: 'Download' },
     hero: {
-      badge: 'Open source · MIT · Runs on your machine',
+      badge: 'Open source · GPL-3.0 · Runs on your machine',
       title: ['Your AI wingman for the call.', 'Invisible when you share your screen.'],
       sub: 'Tayori listens to your meeting, transcribes who says what, and suggests answers in a floating overlay — one that stays hidden from Meet, Zoom, Teams and OBS while you share your screen.',
       ctaDownload: 'Download for Windows',
@@ -101,7 +101,7 @@ export const dict = {
         },
         {
           q: 'How much does it cost?',
-          a: 'The app is free and open source (MIT), with no accounts and no monetization. You only pay your AI provider for usage — or nothing at all if you run fully local with Ollama + Whisper.',
+          a: 'The app is free and open source (GPL-3.0), with no accounts and no monetization. You only pay your AI provider for usage — or nothing at all if you run fully local with Ollama + Whisper.',
         },
         {
           q: 'Do I need an API key?',
@@ -121,7 +121,7 @@ export const dict = {
       altCta: 'Read the README',
     },
     footer: {
-      tagline: 'Real-time AI for meetings and interviews. Open source, MIT, no monetization.',
+      tagline: 'Real-time AI for meetings and interviews. Open source, GPL-3.0, no monetization.',
       nameOrigin: 'Japanese for “it became something you can rely on.” Hence the little ghost.',
       madeBy: 'Built by',
       cols: {
@@ -147,7 +147,7 @@ export const dict = {
   es: {
     nav: { features: 'Funciones', privacy: 'Privacidad', how: 'Cómo funciona', faq: 'FAQ', docs: 'Docs', download: 'Descargar' },
     hero: {
-      badge: 'Open source · MIT · Corre en tu equipo',
+      badge: 'Open source · GPL-3.0 · Corre en tu equipo',
       title: ['Tu copiloto de IA para la llamada.', 'Invisible cuando compartes pantalla.'],
       sub: 'Tayori escucha tu reunión, transcribe quién dice qué y sugiere respuestas en un overlay flotante — uno que permanece oculto en Meet, Zoom, Teams y OBS mientras compartes pantalla.',
       ctaDownload: 'Descargar para Windows',
@@ -241,7 +241,7 @@ export const dict = {
         },
         {
           q: '¿Cuánto cuesta?',
-          a: 'La app es gratis y open source (MIT), sin cuentas y sin monetización. Solo pagas a tu proveedor de IA por el uso — o nada, si corres todo local con Ollama + Whisper.',
+          a: 'La app es gratis y open source (GPL-3.0), sin cuentas y sin monetización. Solo pagas a tu proveedor de IA por el uso — o nada, si corres todo local con Ollama + Whisper.',
         },
         {
           q: '¿Necesito una API key?',
@@ -261,7 +261,7 @@ export const dict = {
       altCta: 'Lee el README',
     },
     footer: {
-      tagline: 'IA en tiempo real para reuniones y entrevistas. Open source, MIT, sin monetización.',
+      tagline: 'IA en tiempo real para reuniones y entrevistas. Open source, GPL-3.0, sin monetización.',
       nameOrigin: 'japonés para “se volvió algo en lo que confiar.” De ahí el fantasmita.',
       madeBy: 'Creado por',
       cols: {
