@@ -124,6 +124,9 @@ export const DOCS: DocSection[] = [
               (<Kbd>Ctrl+Alt+Q</Kbd>) o cualquier otra cosa que haya en pantalla.
             </li>
             <li>
+              <strong>Lee las respuestas en voz alta</strong> — voces del sistema, OpenAI o Piper local.
+            </li>
+            <li>
               <strong>Funciona 100% offline</strong> con Whisper local + Ollama.
             </li>
           </ul>
@@ -161,6 +164,9 @@ export const DOCS: DocSection[] = [
             <li>
               <strong>Solve screen</strong> with a vision-capable model: code (<Kbd>Ctrl+Alt+C</Kbd>), a quiz
               (<Kbd>Ctrl+Alt+Q</Kbd>), or anything else on your screen.
+            </li>
+            <li>
+              <strong>Reads answers aloud</strong> — system voices, OpenAI or local Piper.
             </li>
             <li>
               <strong>Fully offline</strong> when paired with Whisper local + Ollama.
@@ -349,12 +355,12 @@ export const DOCS: DocSection[] = [
             <li><strong>Escuchar / Escuchando</strong> — empieza y para la escucha. El pequeño desplegable de al lado abre qué <strong>fuentes</strong> se escuchan (tu micro, la salida del sistema o ambas). Si una fuente está configurada pero no llegó a abrirse, el control se pone <strong>ámbar</strong>.</li>
             <li><strong>Ojo (visibilidad)</strong> — activa o desactiva la exclusión de captura. Se pone <strong>rojo</strong> cuando el overlay es <em>visible</em> (el estado peligroso) y el panel gana un borde rojo punteado para que no compartas pantalla sin darte cuenta.</li>
             <li><strong>Resolver la pantalla</strong> — un botón con menú: <strong>Código</strong>, <strong>Test</strong> o <strong>Cualquier otra cosa</strong> (ayuda general con lo que haya en pantalla).</li>
-            <li><Kbd>⋯</Kbd> — plegar, configuración, nueva conversación y salir.</li>
+            <li><Kbd>⋯</Kbd> — plegar el panel, configuración y salir.</li>
             <li><strong>Perfil y modelo</strong> — la fila de abajo: el perfil elige la forma de la respuesta y el desplegable de al lado el modelo de respuesta.</li>
-            <li><strong>Pestañas Escuchar / Escribir</strong> — <strong>Escuchar</strong> sigue la llamada; <strong>Escribir</strong> es un chat donde tecleas una pregunta (<code>/skill</code> para invocar una) y los intercambios se apilan como un hilo, como una app de mensajería.</li>
+            <li><strong>Pestañas Escuchar / Escribir</strong> — <strong>Escuchar</strong> sigue la llamada; <strong>Escribir</strong> es un chat donde tecleas una pregunta (<code>/skill</code> para invocar una, <Kbd>Tab</Kbd> para completarla) y los intercambios se apilan como un hilo. El <strong>+</strong> junto al campo adjunta una imagen (una captura nueva o una de tu PC), cada respuesta tiene botón de <strong>copiar</strong> (y de <strong>reproducir</strong> con las respuestas habladas activas), y un botón de <strong>nueva conversación</strong> a la derecha de la fila de pestañas borra la transcripción y la memoria.</li>
             <li><Kbd>‹ 2/5 ›</Kbd> — vuelve a respuestas anteriores sin abrir el historial.</li>
           </ul>
-          <p>Muévelo arrastrando la barra o con <Kbd>Ctrl+Alt+flechas</Kbd>. Ocúltalo con <Kbd>Ctrl+Shift+H</Kbd>.</p>
+          <p>Muévelo arrastrando el <strong>grip</strong> — los seis puntos a la izquierda de la barra — o con <Kbd>Ctrl+Alt+flechas</Kbd>; solo el grip mueve la ventana, así el resto de la barra sigue clicable. Ocúltalo con <Kbd>Ctrl+Shift+H</Kbd>.</p>
         </>
       ) : (
         <>
@@ -363,12 +369,115 @@ export const DOCS: DocSection[] = [
             <li><strong>Listen / Listening</strong> — starts and stops listening. The little caret next to it opens which <strong>sources</strong> are heard (your mic, the system output, or both). If a source is configured but didn't manage to open, the control turns <strong>amber</strong>.</li>
             <li><strong>Eye (visibility)</strong> — toggles whether the overlay is excluded from capture. It turns <strong>red</strong> when the overlay is <em>visible</em> (the risky state) and the panel gains a dashed red frame so you can't share your screen without noticing.</li>
             <li><strong>Solve screen</strong> — one button with a menu: <strong>Code</strong>, <strong>Quiz</strong>, or <strong>Anything else</strong> (general help with whatever's on screen).</li>
-            <li><Kbd>⋯</Kbd> — collapse, settings, new conversation and quit.</li>
+            <li><Kbd>⋯</Kbd> — collapse the panel, settings and quit.</li>
             <li><strong>Profile and model</strong> — the row below: the profile picks the shape of the answer and the dropdown next to it the answer model.</li>
-            <li><strong>Listen / Write tabs</strong> — <strong>Listen</strong> follows the call; <strong>Write</strong> is a small chat where you type a question (<code>/skill</code> to invoke one) and the exchanges stack as a scrollable thread, like a messaging app.</li>
+            <li><strong>Listen / Write tabs</strong> — <strong>Listen</strong> follows the call; <strong>Write</strong> is a small chat where you type a question (<code>/skill</code> to invoke one, <Kbd>Tab</Kbd> to complete it) and the exchanges stack as a thread. The <strong>+</strong> by the input attaches an image (a fresh screenshot or one from your PC), each answer has a <strong>copy</strong> button (and a <strong>speak</strong> one when spoken answers are on), and a <strong>new conversation</strong> button at the right of the tab row wipes the transcript and memory.</li>
             <li><Kbd>‹ 2/5 ›</Kbd> — go back to earlier answers without opening the history.</li>
           </ul>
-          <p>Move it by dragging the bar or with <Kbd>Ctrl+Alt+arrows</Kbd>. Hide it with <Kbd>Ctrl+Shift+H</Kbd>.</p>
+          <p>Move it by dragging the <strong>grip</strong> — the six dots at the left of the bar — or with <Kbd>Ctrl+Alt+arrows</Kbd>; only the grip moves the window, so the rest of the bar stays clickable. Hide it with <Kbd>Ctrl+Shift+H</Kbd>.</p>
+        </>
+      ),
+  },
+  {
+    id: 'audio-devices',
+    group: 'use',
+    title: { en: 'Audio devices', es: 'Dispositivos de audio' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            Dos fuentes independientes — tu micrófono y la salida del sistema. En{' '}
+            <em>dashboard → Audio → Dispositivos</em> eliges <strong>qué micrófono</strong> abre la captura y{' '}
+            <strong>qué salida</strong> usa la reproducción, para equipos con más de uno de cada.
+          </p>
+          <p>
+            El micrófono se aplica <strong>al instante</strong>: cámbialo mientras escuchas y los flujos se reabren con
+            el nuevo. La salida no cambia lo que se captura (el loopback siempre es la mezcla por defecto) — es donde
+            suenan las <strong>respuestas habladas</strong>, y un botón <strong>Probar salida</strong> comprueba el
+            dispositivo antes de que confíes en él.
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            Two independent sources — your microphone and the system output. In <em>dashboard → Audio → Devices</em> you
+            choose <strong>which microphone</strong> the capture opens and <strong>which output</strong> playback uses,
+            for machines with more than one of either.
+          </p>
+          <p>
+            The microphone applies <strong>immediately</strong>: change it while listening and the streams reopen with
+            the new one. The output doesn't change what's captured — the system loopback is always the default render
+            mix — it's where the <strong>spoken answers</strong> play, and a <strong>Test output</strong> button checks
+            the device before you rely on it.
+          </p>
+        </>
+      ),
+  },
+  {
+    id: 'spoken-answers',
+    group: 'use',
+    title: { en: 'Spoken answers', es: 'Respuestas habladas' },
+    body: (l) =>
+      l === 'es' ? (
+        <>
+          <p>
+            Puede leer las respuestas del asistente <strong>en voz alta</strong>. Se enciende en{' '}
+            <em>dashboard → Audio → Respuestas habladas</em> y eliges un <strong>motor</strong>:
+          </p>
+          <ul>
+            <li>
+              <strong>Voces del sistema</strong> (Web Speech) — gratis, offline, sin descarga. Usa las voces del SO;
+              siempre suena en la salida <strong>por defecto</strong> (esta API no enruta a dispositivos).
+            </li>
+            <li>
+              <strong>OpenAI</strong> — una voz de nube más natural; reutiliza tu key de OpenAI. Suena por la salida que
+              elijas.
+            </li>
+            <li>
+              <strong>Piper</strong> — un motor neural local. Elige una voz y <strong>descárgala</strong> una vez (el
+              binario pequeño viene con la primera descarga); luego corre offline por tu salida.
+            </li>
+          </ul>
+          <p>
+            Ajusta la <strong>voz</strong> y la <strong>velocidad</strong>, y si <strong>leer las respuestas nuevas
+            automáticamente</strong> — con eso apagado, cada respuesta tiene un botón de reproducir para las que quieras.
+            Empezar una para cualquier otra en curso, y el botón alterna reproducir/parar.
+          </p>
+          <Callout tone="warn">
+            <strong>Privacidad:</strong> las voces del sistema y Piper son <strong>locales</strong> — nada sale de tu
+            máquina. <strong>OpenAI</strong> manda el texto de la respuesta a OpenAI para sintetizarlo, como cualquier
+            llamada de nube.
+          </Callout>
+        </>
+      ) : (
+        <>
+          <p>
+            It can read the assistant's answers <strong>out loud</strong>. Turn it on in{' '}
+            <em>dashboard → Audio → Spoken answers</em>, then pick an <strong>engine</strong>:
+          </p>
+          <ul>
+            <li>
+              <strong>System voices</strong> (Web Speech) — free, offline, zero download. Uses the OS voices; it always
+              plays on the <strong>default</strong> output (this API has no device routing).
+            </li>
+            <li>
+              <strong>OpenAI</strong> — a more natural cloud voice; reuses your OpenAI key. Plays through the output
+              device you picked.
+            </li>
+            <li>
+              <strong>Piper</strong> — a local neural engine. Choose a voice and <strong>download</strong> it once (the
+              small binary comes along on the first download); it then runs offline through your chosen output.
+            </li>
+          </ul>
+          <p>
+            Set the <strong>voice</strong> and <strong>speed</strong>, and whether to <strong>read new answers
+            automatically</strong> — with that off, each answer still has a speak button you press for the ones you want.
+            Starting one answer stops any other, and the speak button toggles play/stop.
+          </p>
+          <Callout tone="warn">
+            <strong>Privacy:</strong> system voices and Piper are <strong>local</strong> — nothing leaves the machine.{' '}
+            <strong>OpenAI</strong> sends the answer's text to OpenAI to synthesize it, like any cloud call.
+          </Callout>
         </>
       ),
   },
