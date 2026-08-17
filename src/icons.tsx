@@ -105,6 +105,19 @@ export const Icon = {
       <path d="M8 21h8M12 17v4" />
     </svg>
   ),
+  volume: (p: P) => (
+    <svg {...base(p)}>
+      <path d="M11 5 6 9H3v6h3l5 4V5Z" />
+      <path d="M16 9a4 4 0 0 1 0 6" />
+      <path d="M19 6.5a8 8 0 0 1 0 11" />
+    </svg>
+  ),
+  pencil: (p: P) => (
+    <svg {...base(p)}>
+      <path d="M4 20h4L18.5 9.5a2.12 2.12 0 0 0-3-3L5 17z" />
+      <path d="M13.5 6.5l3 3" />
+    </svg>
+  ),
   check: (p: P) => (
     <svg {...base(p)}>
       <path d="M4 12l5 5L20 6" />

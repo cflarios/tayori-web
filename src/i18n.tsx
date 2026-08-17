@@ -53,6 +53,9 @@ export const dict = {
         { icon: 'book', t: 'Skills', d: 'Your own SKILL.md instructions that change how the answer sounds — the tone and words, not the format. Anthropic’s format, drop-in.' },
         { icon: 'read', t: 'Teleprompter mode', d: 'One sentence per line in a narrow column with the active line fixed, so your eyes barely move and it doesn’t look like you’re reading.' },
         { icon: 'phone', t: 'Phone mirror', d: 'Serves answers to your phone over your own LAN — off the shared screen entirely. QR to pair, read-only, no cloud.' },
+        { icon: 'volume', t: 'Spoken answers', d: 'Have it read answers aloud — free system voices, natural OpenAI voices, or local neural Piper. Auto-read, or a speak button per answer.' },
+        { icon: 'pencil', t: 'Ask in writing', d: 'A Write tab: type a question, attach a screenshot, and the exchanges stack as a chat thread you can scroll back through.' },
+        { icon: 'screen', t: 'Runs on your machine', d: 'Pair Whisper local with Ollama and nothing leaves your computer — no cloud, no account, fully offline.' },
       ],
     },
     how: {
@@ -190,6 +193,9 @@ export const dict = {
         { icon: 'book', t: 'Skills', d: 'Tus instrucciones en SKILL.md que cambian cómo suena la respuesta — el tono y las palabras, no el formato. Formato de Anthropic, listo para usar.' },
         { icon: 'read', t: 'Modo teleprompter', d: 'Una frase por línea en columna estrecha con la línea activa fija, para que los ojos casi no se muevan y no parezca que lees.' },
         { icon: 'phone', t: 'Espejo en el móvil', d: 'Sirve las respuestas a tu teléfono por tu propia red — fuera de la pantalla compartida del todo. QR para vincular, solo lectura, sin nube.' },
+        { icon: 'volume', t: 'Respuestas habladas', d: 'Que lea las respuestas en voz alta — voces del sistema gratis, voces naturales de OpenAI o Piper neural local. Automático, o un botón por respuesta.' },
+        { icon: 'pencil', t: 'Pregunta por escrito', d: 'Una pestaña Escribir: teclea una pregunta, adjunta una captura, y los intercambios se apilan como un hilo de chat que puedes recorrer.' },
+        { icon: 'screen', t: 'Corre en tu equipo', d: 'Combina Whisper local con Ollama y nada sale de tu ordenador — sin nube, sin cuenta, totalmente offline.' },
       ],
     },
     how: {
