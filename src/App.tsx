@@ -10,7 +10,7 @@ export default function App() {
 
   return (
     <>
-      <div className="aurora" />
+      <div className="page-glow" />
       <Nav />
       {/* Horizontal-overflow containment lives here, NOT on <body>, so it never
           clips the fixed nav on scroll. */}

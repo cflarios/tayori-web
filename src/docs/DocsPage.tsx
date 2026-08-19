@@ -130,7 +130,7 @@ function DocsSearch({ onNavigate }: { onNavigate?: () => void }) {
       </div>
 
       {open && query.length >= 2 && (
-        <div className="absolute left-0 right-0 z-30 mt-2 max-h-[60vh] overflow-y-auto rounded-xl border border-[var(--color-line)] bg-[var(--color-ink-2)] p-1.5 shadow-2xl shadow-black/60">
+        <div className="absolute left-0 right-0 z-30 mt-2 max-h-[60vh] overflow-y-auto rounded-xl border border-[var(--color-line)] bg-[var(--color-panel)] p-1.5 shadow-2xl shadow-black/60">
           {results.length === 0 ? (
             <div className="px-3 py-4 text-center text-sm text-[var(--color-mute-2)]">
               {lang === 'es' ? 'Sin resultados' : 'No results'}

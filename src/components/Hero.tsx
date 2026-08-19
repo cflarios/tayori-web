@@ -1,74 +1,51 @@
 import { useI18n } from '../i18n'
 import { useLatestRelease } from '../useLatestRelease'
 import { Icon } from '../icons'
-import { OverlayMock } from './OverlayMock'
-import { Mascot } from './Mascot'
 
 export function Hero() {
   const { t } = useI18n()
   const tag = useLatestRelease()
 
   return (
-    <section id="top" className="relative pt-32 pb-20 sm:pt-40 sm:pb-28">
-      <div className="mx-auto max-w-6xl px-5">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
-          {/* Left: copy */}
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-[var(--color-line)] bg-white/4 px-3 py-1 text-xs font-medium text-[var(--color-mute)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-r from-violet-400 to-cyan-400" />
-              {t.hero.badge}
-            </div>
-
-            <h1 className="mt-6 text-4xl font-extrabold leading-[1.08] tracking-tight sm:text-5xl lg:text-[3.4rem]">
-              <span className="block">{t.hero.title[0]}</span>
-              <span className="grad-text block">{t.hero.title[1]}</span>
-            </h1>
-
-            <p className="mt-6 max-w-xl text-[17px] leading-relaxed text-[var(--color-mute)]">{t.hero.sub}</p>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a
-                href="/download"
-                className="btn-glow inline-flex items-center gap-2 rounded-xl px-5 py-3 text-[15px] font-semibold text-white"
-              >
-                <Icon.windows className="h-5 w-5" />
-                {t.hero.ctaDownload}
-              </a>
-              <a
-                href="https://github.com/cflarios/Tayori"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-[var(--color-line)] bg-white/4 px-5 py-3 text-[15px] font-semibold text-white transition-colors hover:border-white/25 hover:bg-white/8"
-              >
-                <Icon.github className="h-5 w-5" />
-                {t.hero.ctaGithub}
-              </a>
-            </div>
-
-            <p className="mt-5 flex items-center gap-2 text-sm text-[var(--color-mute-2)]">
-              <Icon.check className="h-4 w-4 text-emerald-400" />
-              {t.hero.note}
-              {tag && <span className="ml-1 rounded-md bg-white/6 px-1.5 py-0.5 font-mono text-xs text-[var(--color-mute)]">{tag}</span>}
-            </p>
-          </div>
-
-          {/* Right: overlay mock with the mascot peeking in */}
-          <div className="flex justify-center lg:justify-end">
-            {/* This wrapper hugs the card (max-w-[400px]) so the mascot is
-                positioned relative to the CARD, not the full-width column —
-                otherwise it floats orphaned to the left on centered tablet
-                layouts (sm–lg, single column). */}
-            <div className="relative w-full max-w-[400px]">
-              <div className="pointer-events-none absolute -inset-8 -z-10 rounded-full bg-violet-600/20 blur-3xl" />
-              {/* Hidden on phones — the mobile hero is too tight for a floating
-                  peeker without colliding with the card or the version badge.
-                  The ghost still lives in the nav, footer and the vanish demo.
-                  From sm+ it peeks from the card's top-left corner. */}
-              <Mascot className="pointer-events-none absolute -top-8 -left-20 z-10 hidden h-24 w-24 drop-shadow-[0_8px_24px_rgba(139,92,246,0.35)] sm:block" />
-              <OverlayMock animated />
-            </div>
-          </div>
+    <section id="top" className="px-5 pt-[104px] sm:px-10 sm:pt-[148px]">
+      <div className="mx-auto max-w-[1120px] sm:text-center">
+        <div className="inline-flex items-center gap-2 rounded-full border border-line-2 bg-white/4 px-3.5 py-1.5 text-[12.5px] font-semibold text-mute">
+          <span className="pulse-dot h-[7px] w-[7px] rounded-full bg-green" />
+          <span className="sm:hidden">{t.hero.badgeShort}</span>
+          <span className="hidden sm:inline">{t.hero.badge}</span>
         </div>
+
+        <h1 className="mt-5 max-w-[900px] font-display text-[38px] font-bold leading-[1.06] tracking-[-0.03em] text-pretty sm:mx-auto sm:mt-6.5 sm:text-[54px] sm:leading-[1.04] lg:text-[68px]">
+          {t.hero.title[0]}{' '}
+          <span className="text-violet-2 sm:block">{t.hero.title[1]}</span>
+        </h1>
+
+        <p className="mt-4.5 max-w-[620px] text-base leading-[1.6] text-mute sm:mx-auto sm:mt-6 sm:text-[18px]">
+          {t.hero.sub}
+        </p>
+
+        <div className="mt-6 flex flex-col gap-2.5 sm:mt-8 sm:flex-row sm:justify-center sm:gap-3">
+          <a
+            href="/download"
+            className="btn btn-primary flex h-[52px] items-center justify-center gap-2.5 rounded-[13px] text-base font-bold sm:h-auto sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-[15px]"
+          >
+            <Icon.windows className="h-[18px] w-[18px]" />
+            {t.hero.ctaDownload}
+          </a>
+          <a
+            href="https://github.com/cflarios/Tayori"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-ghost flex h-[52px] items-center justify-center gap-2.5 rounded-[13px] text-base font-semibold sm:h-auto sm:rounded-xl sm:px-6 sm:py-3.5 sm:text-[15px]"
+          >
+            {t.hero.ctaGithub}
+          </a>
+        </div>
+
+        <p className="mt-4 text-[13px] leading-[1.55] text-mute-3 sm:mt-5 sm:text-[13.5px]">
+          {tag ? `${tag} · ` : ''}
+          {t.hero.note}
+        </p>
       </div>
     </section>
   )
